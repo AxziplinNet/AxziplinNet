@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         task.resume()
         delegate.dataTaskOfSessionDidReceiveData = { dataTask, session, data in
             print("\(data)")
+            
         }
     }
 
