@@ -11,6 +11,10 @@
 		DC1885701EA74DD000343356 /* AxziplinNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC18856F1EA74DD000343356 /* AxziplinNet.swift */; };
 		DC1885721EA74E7500343356 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885711EA74E7500343356 /* Session.swift */; };
 		DC1885741EA7540100343356 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885731EA7540100343356 /* SessionDelegate.swift */; };
+		DC9CAA0E1EA7A17F002D5F03 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885731EA7540100343356 /* SessionDelegate.swift */; };
+		DC9CAA0F1EA7A17F002D5F03 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885711EA74E7500343356 /* Session.swift */; };
+		DC9CAA101EA7A17F002D5F03 /* AxziplinNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC18856F1EA74DD000343356 /* AxziplinNet.swift */; };
+		DC9CAA131EA7A17F002D5F03 /* AxziplinNet.h in Headers */ = {isa = PBXBuildFile; fileRef = DC1885691EA74C4300343356 /* AxziplinNet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DCD9B5E81EA7847500DDB021 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD9B5E71EA7847500DDB021 /* Tests.swift */; };
 		DCD9B5EA1EA7847500DDB021 /* AxziplinNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1885251EA7458C00343356 /* AxziplinNet.framework */; };
 		DCD9B5F11EA7855300DDB021 /* SessionDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD9B5F01EA7855300DDB021 /* SessionDelegateTests.swift */; };
@@ -33,6 +37,7 @@
 		DC18856F1EA74DD000343356 /* AxziplinNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxziplinNet.swift; sourceTree = "<group>"; };
 		DC1885711EA74E7500343356 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		DC1885731EA7540100343356 /* SessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionDelegate.swift; sourceTree = "<group>"; };
+		DC9CAA181EA7A17F002D5F03 /* AxziplinNet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AxziplinNet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCD9B5E51EA7847500DDB021 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCD9B5E71EA7847500DDB021 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		DCD9B5E91EA7847500DDB021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -41,6 +46,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		DC1885211EA7458C00343356 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC9CAA111EA7A17F002D5F03 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -73,6 +85,7 @@
 			children = (
 				DC1885251EA7458C00343356 /* AxziplinNet.framework */,
 				DCD9B5E51EA7847500DDB021 /* Tests.xctest */,
+				DC9CAA181EA7A17F002D5F03 /* AxziplinNet.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,6 +130,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DC9CAA121EA7A17F002D5F03 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC9CAA131EA7A17F002D5F03 /* AxziplinNet.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -136,6 +157,24 @@
 			name = AxziplinNet;
 			productName = AxziplinNet;
 			productReference = DC1885251EA7458C00343356 /* AxziplinNet.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		DC9CAA0C1EA7A17F002D5F03 /* AxziplinNet iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC9CAA151EA7A17F002D5F03 /* Build configuration list for PBXNativeTarget "AxziplinNet iOS" */;
+			buildPhases = (
+				DC9CAA0D1EA7A17F002D5F03 /* Sources */,
+				DC9CAA111EA7A17F002D5F03 /* Frameworks */,
+				DC9CAA121EA7A17F002D5F03 /* Headers */,
+				DC9CAA141EA7A17F002D5F03 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AxziplinNet iOS";
+			productName = AxziplinNet;
+			productReference = DC9CAA181EA7A17F002D5F03 /* AxziplinNet.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		DCD9B5E41EA7847500DDB021 /* Tests */ = {
@@ -172,6 +211,9 @@
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
+					DC9CAA0C1EA7A17F002D5F03 = {
+						DevelopmentTeam = 67DW4J3U7D;
+					};
 					DCD9B5E41EA7847500DDB021 = {
 						CreatedOnToolsVersion = 8.3.1;
 						DevelopmentTeam = TKA48YVS5T;
@@ -193,12 +235,20 @@
 			targets = (
 				DC1885241EA7458C00343356 /* AxziplinNet */,
 				DCD9B5E41EA7847500DDB021 /* Tests */,
+				DC9CAA0C1EA7A17F002D5F03 /* AxziplinNet iOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		DC1885231EA7458C00343356 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC9CAA141EA7A17F002D5F03 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -222,6 +272,16 @@
 				DC1885741EA7540100343356 /* SessionDelegate.swift in Sources */,
 				DC1885721EA74E7500343356 /* Session.swift in Sources */,
 				DC1885701EA74DD000343356 /* AxziplinNet.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC9CAA0D1EA7A17F002D5F03 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC9CAA0E1EA7A17F002D5F03 /* SessionDelegate.swift in Sources */,
+				DC9CAA0F1EA7A17F002D5F03 /* Session.swift in Sources */,
+				DC9CAA101EA7A17F002D5F03 /* AxziplinNet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +450,55 @@
 			};
 			name = Release;
 		};
+		DC9CAA161EA7A17F002D5F03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 67DW4J3U7D;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = devedbox.AxziplinNet;
+				PRODUCT_NAME = AxziplinNet;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/Source/AxziplinNet.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		DC9CAA171EA7A17F002D5F03 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 67DW4J3U7D;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = devedbox.AxziplinNet;
+				PRODUCT_NAME = AxziplinNet;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/Source/AxziplinNet.h";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		DCD9B5ED1EA7847500DDB021 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -437,6 +546,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		DC9CAA151EA7A17F002D5F03 /* Build configuration list for PBXNativeTarget "AxziplinNet iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC9CAA161EA7A17F002D5F03 /* Debug */,
+				DC9CAA171EA7A17F002D5F03 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DCD9B5EF1EA7847500DDB021 /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -444,6 +562,7 @@
 				DCD9B5EE1EA7847500DDB021 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

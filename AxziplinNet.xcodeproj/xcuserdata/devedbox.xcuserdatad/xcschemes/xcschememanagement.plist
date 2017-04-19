@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AxziplinNet iOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>AxziplinNet.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -43,6 +48,11 @@
 			<true/>
 		</dict>
 		<key>DC1885781EA765C800343356</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DC9CAA0C1EA7A17F002D5F03</key>
 		<dict>
 			<key>primary</key>
 			<true/>
