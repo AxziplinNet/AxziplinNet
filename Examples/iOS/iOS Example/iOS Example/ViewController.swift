@@ -15,13 +15,13 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         let delegate = SessionDelegate()
-        let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
-        let task = session.dataTask(with: URLRequest(url: URL(string:"https://www.baidu.com")!))
-        task.resume()
         delegate.dataTaskOfSessionDidReceiveData = { dataTask, session, data in
             print("\(data)")
             
         }
+        let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+        let task = session.dataTask(with: URLRequest(url: URL(string:"http://sh.dhjie.cn/exchangeStreet/user/client/general/flash/fetch")!))
+        task.resume()
     }
 
     override func didReceiveMemoryWarning() {

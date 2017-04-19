@@ -404,6 +404,7 @@
 				DC9CAA371EA7A292002D5F03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
