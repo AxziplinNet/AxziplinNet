@@ -27,12 +27,14 @@ import Foundation
 /// Custom session delegate class for URLSession's callbacks and operations.
 public final class SessionDelegate: NSObject {
     /// Clousure for `urlSession(_:didBecomeInvalidWithError:)` function in protocol `URLSessionDelegate`.
-    public var sessionDidBecomeInvalidWithError: ((URLSession, Error?) -> Void)?
+    public var sessionDidBecomeInvalid: ((URLSession, Error?) -> Void)?
     /// Clousure for `urlSession(_:didReceive:completionHandler:)` function in protocol `URLSessionDelegate`.
-    public var sessionDidReceiveChallengeWithCompletionHandler: ((URLSession, URLAuthenticationChallenge, (@escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)) -> Void)?
+    public var sessionDidReceiveChallenge: ((URLSession, URLAuthenticationChallenge, (@escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)) -> Void)?
     
     /// Clousure for `urlSession(_:task:willPerformHTTPRedirection:newRequest:completionHandler:)` function in protocol `URLSessionTaskDelegate`.
-    public var taskOfSessionWillPerformHTTPRedirectionWithNewRequestAndCompletionHandler: ((URLSessionTask, URLSession, HTTPURLResponse, URLRequest, @escaping (URLRequest?) -> Void) -> Void)?
+    public var taskOfSessionWillPerformHTTPRedirection: ((URLSessionTask, URLSession, HTTPURLResponse, URLRequest, @escaping (URLRequest?) -> Void) -> Void)?
+    /// Clousure for `urlSession(_:task:didReceive:completionHandler:)` function in protocol `URLSessionDelegate`.
+    public var taskOfSessionDidReceiveChallenge: ((URLSessionTask, URLSession, URLAuthenticationChallenge, @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?
 }
 
 // MARK: URLSessionDelegate
@@ -43,7 +45,7 @@ extension SessionDelegate: URLSessionDelegate {
     /// - parameter session: The session object that was invalidated.
     /// - parameter error:   The error that caused invalidation, or nil if the invalidation was explicit.
     public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        sessionDidBecomeInvalidWithError?(session, error)
+        sessionDidBecomeInvalid?(session, error)
     }
     /// Requests credentials from the delegate in response to a session-level authentication request from the
     /// remote server.
@@ -53,14 +55,33 @@ extension SessionDelegate: URLSessionDelegate {
     /// - parameter completionHandler: A handler that your delegate method must call providing the disposition
     ///                                and credential.
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        sessionDidReceiveChallengeWithCompletionHandler?(session, challenge, completionHandler)
+        sessionDidReceiveChallenge?(session, challenge, completionHandler)
     }
 }
 
 // MARK: URLSessionTaskDelegate
 
 extension SessionDelegate: URLSessionTaskDelegate {
+    /// Tells the delegate that the remote server requested an HTTP redirect.
+    ///
+    /// - parameter session:           The session containing the task whose request resulted in a redirect.
+    /// - parameter task:              The task whose request resulted in a redirect.
+    /// - parameter response:          An object containing the server’s response to the original request.
+    /// - parameter request:           A URL request object filled out with the new location.
+    /// - parameter completionHandler: A closure that your handler should call with either the value of the request
+    ///                                parameter, a modified URL request object, or NULL to refuse the redirect and
+    ///                                return the body of the redirect response.
     public func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: @escaping (URLRequest?) -> Void) {
-        taskOfSessionWillPerformHTTPRedirectionWithNewRequestAndCompletionHandler?(task, session, response, request, completionHandler)
+        taskOfSessionWillPerformHTTPRedirection?(task, session, response, request, completionHandler)
+    }
+    /// Requests credentials from the delegate in response to an authentication request from the remote server.
+    ///
+    /// - parameter session:           The session containing the task whose request requires authentication.
+    /// - parameter task:              The task whose request requires authentication.
+    /// - parameter challenge:         An object that contains the request for authentication.
+    /// - parameter completionHandler: A handler that your delegate method must call providing the disposition
+    ///                                and credential.
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        taskOfSessionDidReceiveChallenge?(task, session, challenge, completionHandler)
     }
 }
