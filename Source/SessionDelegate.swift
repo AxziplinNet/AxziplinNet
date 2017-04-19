@@ -26,21 +26,26 @@
 import Foundation
 /// Custom session delegate class for URLSession's callbacks and operations.
 public final class SessionDelegate: NSObject {
-    /// Clousure for `urlSession(_:didBecomeInvalidWithError:)` function in protocol `URLSessionDelegate`.
+    /// Closure for `urlSession(_:didBecomeInvalidWithError:)` function in protocol `URLSessionDelegate`.
     public var sessionDidBecomeInvalid: ((URLSession, Error?) -> Void)?
-    /// Clousure for `urlSession(_:didReceive:completionHandler:)` function in protocol `URLSessionDelegate`.
+    /// Closure for `urlSession(_:didReceive:completionHandler:)` function in protocol `URLSessionDelegate`.
     public var sessionDidReceiveChallenge: ((URLSession, URLAuthenticationChallenge, (@escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)) -> Void)?
     
-    /// Clousure for `urlSession(_:task:willPerformHTTPRedirection:newRequest:completionHandler:)` function in protocol `URLSessionTaskDelegate`.
+    /// Closure for `urlSession(_:task:willPerformHTTPRedirection:newRequest:completionHandler:)` function in protocol `URLSessionTaskDelegate`.
     public var taskOfSessionWillPerformHTTPRedirection: ((URLSessionTask, URLSession, HTTPURLResponse, URLRequest, @escaping (URLRequest?) -> Void) -> Void)?
-    /// Clousure for `urlSession(_:task:didReceive:completionHandler:)` function in protocol `URLSessionTaskDelegate`.
+    /// Closure for `urlSession(_:task:didReceive:completionHandler:)` function in protocol `URLSessionTaskDelegate`.
     public var taskOfSessionDidReceiveChallenge: ((URLSessionTask, URLSession, URLAuthenticationChallenge, @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?
-    /// Clousure for `urlSession(_:task:needNewBodyStream:)` function in protocol `URLSessionTaskDelegate`.
+    /// Closure for `urlSession(_:task:needNewBodyStream:)` function in protocol `URLSessionTaskDelegate`.
     public var taskOfSessionNeedNewBodyStream: ((URLSessionTask, URLSession, @escaping (InputStream?) -> Void) -> Void)?
-    /// Clousure for `urlSession(_:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:)` function in protocol `URLSessionTaskDelegate`.
+    /// Closure for `urlSession(_:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:)` function in protocol `URLSessionTaskDelegate`.
     public var taskOfSessionDidSendData: ((URLSessionTask, URLSession, Int64, Int64, Int64) -> Void)?
-    /// Clousure for `urlSession(_:task:didFinishCollecting:)` function in protocol `URLSessionTaskDelegate`.
+    /// Closure for `urlSession(_:task:didFinishCollecting:)` function in protocol `URLSessionTaskDelegate`.
     public var taskOfSessionDidFinishCollecting: ((URLSessionTask, URLSession, URLSessionTaskMetrics) -> Void)?
+    /// Closure for `urlSession(_:task:didComplete:)` function in protocol `URLSessionTaskDelegate`.
+    public var taskOfSessionDidComplete: ((URLSessionTask, URLSession, Error?) -> Void)?
+    
+    /// Closure for `urlSession(_:dataTask:didReceive:completionHandler:)` function in protocol `URLSessionDataDelegate`.
+    public var dataTaskOfSessionDidReceiveResponse: ((URLSessionDataTask, URLSession, URLResponse, @escaping (URLSession.ResponseDisposition) -> Void) -> Void)?
 }
 
 // MARK: URLSessionDelegate
@@ -118,4 +123,29 @@ extension SessionDelegate: URLSessionTaskDelegate {
     public func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         taskOfSessionDidFinishCollecting?(task, session, metrics)
     }
+    /// Tells the delegate that the task finished transferring data.
+    ///
+    /// - parameter session: The session containing the task whose request finished transferring data.
+    /// - parameter task:    The task whose request finished transferring data.
+    /// - parameter error:   If an error occurred, an error object indicating how the transfer failed, otherwise nil.
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        taskOfSessionDidComplete?(task, session, error)
+    }
 }
+
+extension SessionDelegate: URLSessionDataDelegate {
+    /// Tells the delegate that the data task received the initial reply (headers) from the server.
+    ///
+    /// - parameter session:           The session containing the data task that received an initial reply.
+    /// - parameter dataTask:          The data task that received an initial reply.
+    /// - parameter response:          A URL response object populated with headers.
+    /// - parameter completionHandler: A completion handler that your code calls to continue the transfer, passing a
+    ///                                constant to indicate whether the transfer should continue as a data task or
+    ///                                should become a download task.
+    public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        dataTaskOfSessionDidReceiveResponse?(dataTask, session, response, completionHandler)
+    }
+}
+
+
+
