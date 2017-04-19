@@ -4,4 +4,7 @@
    <FileRef
       location = "group:AxziplinNet.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Examples/iOS/iOS Example/iOS Example.xcodeproj">
+   </FileRef>
 </Workspace>
