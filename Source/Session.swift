@@ -24,3 +24,15 @@
 //  SOFTWARE.
 
 import Foundation
+/// Session manager of url requests.
+@available(OSX 10.9, *)
+public final class Session {
+    /// URL session instance object.
+    public let session: URLSession
+    /// Default URL session configuration.
+    private let _defaultSessionConfiguration = URLSessionConfiguration()
+    
+    public init() {
+        session = URLSession(configuration: _defaultSessionConfiguration, delegate: nil, delegateQueue:nil)
+    }
+}
