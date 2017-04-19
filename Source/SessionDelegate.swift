@@ -33,8 +33,14 @@ public final class SessionDelegate: NSObject {
     
     /// Clousure for `urlSession(_:task:willPerformHTTPRedirection:newRequest:completionHandler:)` function in protocol `URLSessionTaskDelegate`.
     public var taskOfSessionWillPerformHTTPRedirection: ((URLSessionTask, URLSession, HTTPURLResponse, URLRequest, @escaping (URLRequest?) -> Void) -> Void)?
-    /// Clousure for `urlSession(_:task:didReceive:completionHandler:)` function in protocol `URLSessionDelegate`.
+    /// Clousure for `urlSession(_:task:didReceive:completionHandler:)` function in protocol `URLSessionTaskDelegate`.
     public var taskOfSessionDidReceiveChallenge: ((URLSessionTask, URLSession, URLAuthenticationChallenge, @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?
+    /// Clousure for `urlSession(_:task:needNewBodyStream:)` function in protocol `URLSessionTaskDelegate`.
+    public var taskOfSessionNeedNewBodyStream: ((URLSessionTask, URLSession, @escaping (InputStream?) -> Void) -> Void)?
+    /// Clousure for `urlSession(_:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:)` function in protocol `URLSessionTaskDelegate`.
+    public var taskOfSessionDidSendData: ((URLSessionTask, URLSession, Int64, Int64, Int64) -> Void)?
+    /// Clousure for `urlSession(_:task:didFinishCollecting:)` function in protocol `URLSessionTaskDelegate`.
+    public var taskOfSessionDidFinishCollecting: ((URLSessionTask, URLSession, URLSessionTaskMetrics) -> Void)?
 }
 
 // MARK: URLSessionDelegate
@@ -61,6 +67,7 @@ extension SessionDelegate: URLSessionDelegate {
 
 // MARK: URLSessionTaskDelegate
 
+@available(OSX 10.9, *)
 extension SessionDelegate: URLSessionTaskDelegate {
     /// Tells the delegate that the remote server requested an HTTP redirect.
     ///
@@ -83,5 +90,32 @@ extension SessionDelegate: URLSessionTaskDelegate {
     ///                                and credential.
     public func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         taskOfSessionDidReceiveChallenge?(task, session, challenge, completionHandler)
+    }
+    /// Tells the delegate when a task requires a new request body stream to send to the remote server.
+    ///
+    /// - parameter session:           The session containing the task that needs a new body stream.
+    /// - parameter task:              The task that needs a new body stream.
+    /// - parameter completionHandler: A completion handler that your delegate method should call with the new body stream.
+    public func urlSession(_ session: URLSession, task: URLSessionTask, needNewBodyStream completionHandler: @escaping (InputStream?) -> Void) {
+        taskOfSessionNeedNewBodyStream?(task, session, completionHandler)
+    }
+    /// Periodically informs the delegate of the progress of sending body content to the server.
+    ///
+    /// - parameter session:                  The session containing the data task.
+    /// - parameter task:                     The data task.
+    /// - parameter bytesSent:                The number of bytes sent since the last time this delegate method was called.
+    /// - parameter totalBytesSent:           The total number of bytes sent so far.
+    /// - parameter totalBytesExpectedToSend: The expected length of the body data.
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
+        taskOfSessionDidSendData?(task, session, bytesSent, totalBytesSent, totalBytesExpectedToSend)
+    }
+    /// Tells the delegate that the session finished collecting metrics for the task.
+    ///
+    /// - parameter session: The session collecting the metrics.
+    /// - parameter task:    The task whose metrics have been collected.
+    /// - parameter metrics: The collected metrics.
+    @available(OSX 10.12, *)
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        taskOfSessionDidFinishCollecting?(task, session, metrics)
     }
 }
