@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>CoreTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>Tests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -33,6 +38,16 @@
 			<true/>
 		</dict>
 		<key>DC1885571EA747ED00343356</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DC1885781EA765C800343356</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DCD9B5E41EA7847500DDB021</key>
 		<dict>
 			<key>primary</key>
 			<true/>
