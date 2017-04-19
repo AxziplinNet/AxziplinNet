@@ -46,6 +46,8 @@ public final class SessionDelegate: NSObject {
     
     /// Closure for `urlSession(_:dataTask:didReceive:completionHandler:)` function in protocol `URLSessionDataDelegate`.
     public var dataTaskOfSessionDidReceiveResponse: ((URLSessionDataTask, URLSession, URLResponse, @escaping (URLSession.ResponseDisposition) -> Void) -> Void)?
+    /// Closure for `urlSession(_:dataTask:didBecome:)` function in protocol `URLSessionDataDelegate`.
+    public var dataTaskOfSessionDidBecomeDownloadTask: ((URLSessionDataTask, URLSession, URLSessionDownloadTask) -> Void)?
 }
 
 // MARK: URLSessionDelegate
@@ -145,7 +147,14 @@ extension SessionDelegate: URLSessionDataDelegate {
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
         dataTaskOfSessionDidReceiveResponse?(dataTask, session, response, completionHandler)
     }
+    /// Tells the delegate that the data task was changed to a download task.
+    ///
+    /// - parameter session:      The session containing the task that was replaced by a download task.
+    /// - parameter dataTask:     The data task that was replaced by a download task.
+    /// - parameter downloadTask: The new download task that replaced the data task.
+    public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didBecome downloadTask: URLSessionDownloadTask) {
+        dataTaskOfSessionDidBecomeDownloadTask?(dataTask, session, downloadTask)
+    }
 }
-
 
 
