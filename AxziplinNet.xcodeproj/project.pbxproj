@@ -10,6 +10,7 @@
 		DC18856B1EA74C4300343356 /* AxziplinNet.h in Headers */ = {isa = PBXBuildFile; fileRef = DC1885691EA74C4300343356 /* AxziplinNet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC1885701EA74DD000343356 /* AxziplinNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC18856F1EA74DD000343356 /* AxziplinNet.swift */; };
 		DC1885721EA74E7500343356 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885711EA74E7500343356 /* Session.swift */; };
+		DC1885741EA7540100343356 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885731EA7540100343356 /* SessionDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +19,7 @@
 		DC18856A1EA74C4300343356 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC18856F1EA74DD000343356 /* AxziplinNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxziplinNet.swift; sourceTree = "<group>"; };
 		DC1885711EA74E7500343356 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		DC1885731EA7540100343356 /* SessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				DC18856F1EA74DD000343356 /* AxziplinNet.swift */,
 				DC1885711EA74E7500343356 /* Session.swift */,
+				DC1885731EA7540100343356 /* SessionDelegate.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC1885741EA7540100343356 /* SessionDelegate.swift in Sources */,
 				DC1885721EA74E7500343356 /* Session.swift in Sources */,
 				DC1885701EA74DD000343356 /* AxziplinNet.swift in Sources */,
 			);
