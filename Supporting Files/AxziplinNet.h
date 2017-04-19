@@ -29,5 +29,3 @@
 FOUNDATION_EXPORT double AxziplinNetVersionNumber;
 /// Project version string for AxziplinNet.
 FOUNDATION_EXPORT const unsigned char AxziplinNetVersionString[];
-
-
