@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		DC18856B1EA74C4300343356 /* AxziplinNet.h in Headers */ = {isa = PBXBuildFile; fileRef = DC1885691EA74C4300343356 /* AxziplinNet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC1885701EA74DD000343356 /* AxziplinNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC18856F1EA74DD000343356 /* AxziplinNet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DC1885251EA7458C00343356 /* AxziplinNet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AxziplinNet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC1885691EA74C4300343356 /* AxziplinNet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AxziplinNet.h; sourceTree = "<group>"; };
 		DC18856A1EA74C4300343356 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DC18856F1EA74DD000343356 /* AxziplinNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxziplinNet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 		DC18853F1EA745A600343356 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				DC18856F1EA74DD000343356 /* AxziplinNet.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -142,6 +145,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC1885701EA74DD000343356 /* AxziplinNet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
