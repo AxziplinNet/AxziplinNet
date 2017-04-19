@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DC18856B1EA74C4300343356 /* AxziplinNet.h in Headers */ = {isa = PBXBuildFile; fileRef = DC1885691EA74C4300343356 /* AxziplinNet.h */; };
-		DC18856C1EA74C4300343356 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC18856A1EA74C4300343356 /* Info.plist */; };
+		DC18856B1EA74C4300343356 /* AxziplinNet.h in Headers */ = {isa = PBXBuildFile; fileRef = DC1885691EA74C4300343356 /* AxziplinNet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -133,7 +132,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC18856C1EA74C4300343356 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
