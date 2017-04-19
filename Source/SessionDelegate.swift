@@ -48,6 +48,13 @@ public final class SessionDelegate: NSObject {
     public var dataTaskOfSessionDidReceiveResponse: ((URLSessionDataTask, URLSession, URLResponse, @escaping (URLSession.ResponseDisposition) -> Void) -> Void)?
     /// Closure for `urlSession(_:dataTask:didBecome:)` function in protocol `URLSessionDataDelegate`.
     public var dataTaskOfSessionDidBecomeDownloadTask: ((URLSessionDataTask, URLSession, URLSessionDownloadTask) -> Void)?
+    /// Closure for `urlSession(_:dataTask:didBecome:)` function in protocol `URLSessionDataDelegate`.
+    public var dataTaskOfSessionDidBecomeStreamTask: ((URLSessionDataTask, URLSession, URLSessionStreamTask) -> Void)?
+    /// Closure for `urlSession(_:dataTask:didReceive:)` function in protocol `URLSessionDataDelegate`.
+    public var dataTaskOfSessionDidReceiveData: ((URLSessionDataTask, URLSession, Data) -> Void)?
+    /// Closure for `urlSession(_:dataTask:willCacheResponse:)` function in protocol `URLSessionDataDelegate`.
+    public var dataTaskOfSessionWillCacheResponse: ((URLSessionDataTask, URLSession, CachedURLResponse, @escaping (CachedURLResponse?) -> Void) -> Void)?
+
 }
 
 // MARK: URLSessionDelegate
@@ -154,6 +161,36 @@ extension SessionDelegate: URLSessionDataDelegate {
     /// - parameter downloadTask: The new download task that replaced the data task.
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didBecome downloadTask: URLSessionDownloadTask) {
         dataTaskOfSessionDidBecomeDownloadTask?(dataTask, session, downloadTask)
+    }
+    /// Tells the delegate that the data task was changed to a stream task.
+    ///
+    /// - parameter session:      The session containing the task that was replaced by a stream task.
+    /// - parameter dataTask:     The data task that was replaced by a stream task.
+    /// - parameter streamTask:   The new stream task that replaced the data task.
+    public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didBecome streamTask: URLSessionStreamTask) {
+        dataTaskOfSessionDidBecomeStreamTask?(dataTask, session, streamTask)
+    }
+    /// Tells the delegate that the data task has received some of the expected data.
+    ///
+    /// - parameter session:  The session containing the data task that provided data.
+    /// - parameter dataTask: The data task that provided data.
+    /// - parameter data:     A data object containing the transferred data.
+    public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        dataTaskOfSessionDidReceiveData?(dataTask, session, data)
+    }
+    /// Asks the delegate whether the data (or upload) task should store the response in the cache.
+    ///
+    /// - parameter session:           The session containing the data (or upload) task.
+    /// - parameter dataTask:          The data (or upload) task.
+    /// - parameter proposedResponse:  The default caching behavior. This behavior is determined based on the current
+    ///                                caching policy and the values of certain received headers, such as the Pragma
+    ///                                and Cache-Control headers.
+    /// - parameter completionHandler: A block that your handler must call, providing either the original proposed
+    ///                                response, a modified version of that response, or NULL to prevent caching the
+    ///                                response. If your delegate implements this method, it must call this completion
+    ///                                handler; otherwise, your app leaks memory.
+    public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Void) {
+        dataTaskOfSessionWillCacheResponse?(dataTask, session, proposedResponse, completionHandler)
     }
 }
 
