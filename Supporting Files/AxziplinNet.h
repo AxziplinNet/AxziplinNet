@@ -6,7 +6,7 @@
 //  Copyright © 2017年 devedbox. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Foundation;
 
 //! Project version number for AxziplinNet.
 FOUNDATION_EXPORT double AxziplinNetVersionNumber;

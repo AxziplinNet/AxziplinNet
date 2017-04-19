@@ -7,26 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DC18852F1EA7458C00343356 /* AxziplinNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1885251EA7458C00343356 /* AxziplinNet.framework */; };
-		DC1885421EA745A600343356 /* AxziplinNet.h in Headers */ = {isa = PBXBuildFile; fileRef = DC1885401EA745A600343356 /* AxziplinNet.h */; };
-		DC1885431EA745A600343356 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC1885411EA745A600343356 /* Info.plist */; };
+		DC18856B1EA74C4300343356 /* AxziplinNet.h in Headers */ = {isa = PBXBuildFile; fileRef = DC1885691EA74C4300343356 /* AxziplinNet.h */; };
+		DC18856C1EA74C4300343356 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC18856A1EA74C4300343356 /* Info.plist */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		DC1885301EA7458C00343356 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DC18851C1EA7458C00343356 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DC1885241EA7458C00343356;
-			remoteInfo = AxziplinNet;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		DC1885251EA7458C00343356 /* AxziplinNet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AxziplinNet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DC18852E1EA7458C00343356 /* AxziplinNetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AxziplinNetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DC1885401EA745A600343356 /* AxziplinNet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AxziplinNet.h; sourceTree = "<group>"; };
-		DC1885411EA745A600343356 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DC1885691EA74C4300343356 /* AxziplinNet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AxziplinNet.h; sourceTree = "<group>"; };
+		DC18856A1EA74C4300343356 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,14 +25,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DC18852B1EA7458C00343356 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DC18852F1EA7458C00343356 /* AxziplinNet.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -52,6 +32,7 @@
 			isa = PBXGroup;
 			children = (
 				DC18853F1EA745A600343356 /* Source */,
+				DC1885681EA74C4300343356 /* Supporting Files */,
 				DC1885261EA7458C00343356 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,7 +41,6 @@
 			isa = PBXGroup;
 			children = (
 				DC1885251EA7458C00343356 /* AxziplinNet.framework */,
-				DC18852E1EA7458C00343356 /* AxziplinNetTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,10 +48,17 @@
 		DC18853F1EA745A600343356 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				DC1885401EA745A600343356 /* AxziplinNet.h */,
-				DC1885411EA745A600343356 /* Info.plist */,
 			);
 			path = Source;
+			sourceTree = "<group>";
+		};
+		DC1885681EA74C4300343356 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DC1885691EA74C4300343356 /* AxziplinNet.h */,
+				DC18856A1EA74C4300343356 /* Info.plist */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -81,7 +68,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC1885421EA745A600343356 /* AxziplinNet.h in Headers */,
+				DC18856B1EA74C4300343356 /* AxziplinNet.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,24 +93,6 @@
 			productReference = DC1885251EA7458C00343356 /* AxziplinNet.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		DC18852D1EA7458C00343356 /* AxziplinNetTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DC18853C1EA7458C00343356 /* Build configuration list for PBXNativeTarget "AxziplinNetTests" */;
-			buildPhases = (
-				DC18852A1EA7458C00343356 /* Sources */,
-				DC18852B1EA7458C00343356 /* Frameworks */,
-				DC18852C1EA7458C00343356 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DC1885311EA7458C00343356 /* PBXTargetDependency */,
-			);
-			name = AxziplinNetTests;
-			productName = AxziplinNetTests;
-			productReference = DC18852E1EA7458C00343356 /* AxziplinNetTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -137,11 +106,7 @@
 					DC1885241EA7458C00343356 = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = 67DW4J3U7D;
-						ProvisioningStyle = Automatic;
-					};
-					DC18852D1EA7458C00343356 = {
-						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = 67DW4J3U7D;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -159,7 +124,6 @@
 			projectRoot = "";
 			targets = (
 				DC1885241EA7458C00343356 /* AxziplinNet */,
-				DC18852D1EA7458C00343356 /* AxziplinNetTests */,
 			);
 		};
 /* End PBXProject section */
@@ -169,14 +133,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC1885431EA745A600343356 /* Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DC18852C1EA7458C00343356 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				DC18856C1EA74C4300343356 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,22 +147,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DC18852A1EA7458C00343356 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		DC1885311EA7458C00343356 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DC1885241EA7458C00343356 /* AxziplinNet */;
-			targetProxy = DC1885301EA7458C00343356 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		DC1885371EA7458C00343356 /* Debug */ = {
@@ -309,6 +251,7 @@
 		DC18853A1EA7458C00343356 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -317,12 +260,14 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = devedbox.AxziplinNet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/Source/AxziplinNet.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -330,6 +275,7 @@
 		DC18853B1EA7458C00343356 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -338,38 +284,13 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = devedbox.AxziplinNet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		DC18853D1EA7458C00343356 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 67DW4J3U7D;
-				INFOPLIST_FILE = AxziplinNetTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = devedbox.AxziplinNetTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		DC18853E1EA7458C00343356 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 67DW4J3U7D;
-				INFOPLIST_FILE = AxziplinNetTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = devedbox.AxziplinNetTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/Source/AxziplinNet.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -393,14 +314,7 @@
 				DC18853B1EA7458C00343356 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-		};
-		DC18853C1EA7458C00343356 /* Build configuration list for PBXNativeTarget "AxziplinNetTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DC18853D1EA7458C00343356 /* Debug */,
-				DC18853E1EA7458C00343356 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
