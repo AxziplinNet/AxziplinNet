@@ -15,9 +15,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         let delegate = SessionDelegate()
-        delegate.dataTaskOfSessionDidReceiveData = { dataTask, session, data in
+        var data = Data()
+        
+        delegate.dataTaskOfSessionDidReceiveData = { dataTask, session, responseData in
+            data.append(responseData)
             print("\(data)")
         }
+        delegate.taskOfSessionDidComplete = { task, session, error in
+            if let info = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) {
+                print("\(info)")
+            }
+        }
+        
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 30
         let request = URLRequest(url: URL(string:"https://itunes.apple.com/cn/app/xun-qin-ji/id1166476826?mt=8")!, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30)
