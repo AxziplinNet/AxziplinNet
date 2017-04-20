@@ -59,6 +59,8 @@ public final class SessionDelegate: NSObject {
     public var downloadTaskOfSessionDidFinishDownloading: ((URLSessionDownloadTask, URLSession, URL) -> Void)?
     /// Closure for `urlSession(_:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:)` function in protocol `URLSessionDownloadDelegate`.
     public var downloadTaskOfSessionDidWriteData: ((URLSessionDownloadTask, URLSession, Int64, Int64, Int64) -> Void)?
+    /// Closure for `urlSession(_:downloadTask:didResumeAtOffset:expectedTotalBytes:)` function in protocol `URLSessionDownloadDelegate`.
+    public var downloadTaskOfSessionDidResume: ((URLSessionDownloadTask, URLSession, Int64, Int64) -> Void)?
     // MARK: URLCredential
     ///
     public var credentialOfChallenge: ((URLSession, URLSessionTask?, URLAuthenticationChallenge) -> URLCredential?)?
@@ -256,6 +258,19 @@ extension SessionDelegate: URLSessionDownloadDelegate {
     ///                                        `NSURLSessionTransferSizeUnknown`.
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         downloadTaskOfSessionDidWriteData?(downloadTask, session, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
+    }
+    /// Tells the delegate that the download task has resumed downloading.
+    ///
+    /// - parameter session:            The session containing the download task that finished.
+    /// - parameter downloadTask:       The download task that resumed. See explanation in the discussion.
+    /// - parameter fileOffset:         If the file's cache policy or last modified date prevents reuse of the
+    ///                                 existing content, then this value is zero. Otherwise, this value is an
+    ///                                 integer representing the number of bytes on disk that do not need to be
+    ///                                 retrieved again.
+    /// - parameter expectedTotalBytes: The expected length of the file, as provided by the Content-Length header.
+    ///                                 If this header was not provided, the value is NSURLSessionTransferSizeUnknown.
+    public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didResumeAtOffset fileOffset: Int64, expectedTotalBytes: Int64) {
+        downloadTaskOfSessionDidResume?(downloadTask, session, fileOffset, expectedTotalBytes)
     }
 }
 
