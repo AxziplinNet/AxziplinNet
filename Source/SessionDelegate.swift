@@ -57,6 +57,8 @@ public final class SessionDelegate: NSObject {
 
     /// Closure for `urlSession(_:downloadTask:didFinishDownloadingTo:)` function in protocol `URLSessionDownloadDelegate`.
     public var downloadTaskOfSessionDidFinishDownloading: ((URLSessionDownloadTask, URLSession, URL) -> Void)?
+    /// Closure for `urlSession(_:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:)` function in protocol `URLSessionDownloadDelegate`.
+    public var downloadTaskOfSessionDidWriteData: ((URLSessionDownloadTask, URLSession, Int64, Int64, Int64) -> Void)?
     // MARK: URLCredential
     ///
     public var credentialOfChallenge: ((URLSession, URLSessionTask?, URLAuthenticationChallenge) -> URLCredential?)?
@@ -242,7 +244,19 @@ extension SessionDelegate: URLSessionDownloadDelegate {
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         downloadTaskOfSessionDidFinishDownloading?(downloadTask, session, location)
     }
-    
+    /// Periodically informs the delegate about the download’s progress.
+    ///
+    /// - parameter session:                   The session containing the download task.
+    /// - parameter downloadTask:              The download task.
+    /// - parameter bytesWritten:              The number of bytes transferred since the last time this delegate
+    ///                                        method was called.
+    /// - parameter totalBytesWritten:         The total number of bytes transferred so far.
+    /// - parameter totalBytesExpectedToWrite: The expected length of the file, as provided by the Content-Length
+    ///                                        header. If this header was not provided, the value is
+    ///                                        `NSURLSessionTransferSizeUnknown`.
+    public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        downloadTaskOfSessionDidWriteData?(downloadTask, session, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
+    }
 }
 
 
