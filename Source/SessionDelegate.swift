@@ -68,6 +68,8 @@ public final class SessionDelegate: NSObject {
     public var streamTaskOfSessionWriteClosed: ((URLSessionStreamTask, URLSession) -> Void)?
     /// Closure for `urlSession(_:betterRouteDiscoveredFor:)` function in protocol `URLSessionStreamDelegate`.
     public var streamTaskOfSessionBetterRouteDiscovered: ((URLSessionStreamTask, URLSession) -> Void)?
+    /// Closure for `urlSession(_streamTask:didBecome:outputStream:)` function in protocol `URLSessionStreamDelegate`.
+    public var streamTaskOfSessionDidBecomeInOutStream: ((URLSessionStreamTask, URLSession, InputStream, OutputStream) -> Void)?
     // MARK: URLCredential
     ///
     public var credentialOfChallenge: ((URLSession, URLSessionTask?, URLAuthenticationChallenge) -> URLCredential?)?
@@ -308,6 +310,16 @@ extension SessionDelegate: URLSessionStreamDelegate {
     ///   - streamTask: The stream task that discovered a better route.
     public func urlSession(_ session: URLSession, betterRouteDiscoveredFor streamTask: URLSessionStreamTask) {
         streamTaskOfSessionBetterRouteDiscovered?(streamTask, session)
+    }
+    /// Tells the delegate that the stream task has been completed as a result of the stream task calling the captureStreams() method.
+    /// This delegate method will only be called after all enqueued reads and writes for the stream task have been completed.
+    /// - Parameters:
+    ///   - session:      The session of the stream task that has been completed.
+    ///   - streamTask:   The stream task that has been completed.
+    ///   - inputStream:  The created input stream. This InputStream object is unopened.
+    ///   - outputStream: The created output stream. This OutputStream object is unopened
+    public func urlSession(_ session: URLSession, streamTask: URLSessionStreamTask, didBecome inputStream: InputStream, outputStream: OutputStream) {
+        streamTaskOfSessionDidBecomeInOutStream?(streamTask, session, inputStream, outputStream)
     }
 }
 
