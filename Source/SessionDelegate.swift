@@ -24,52 +24,74 @@
 //  SOFTWARE.
 
 import Foundation
+
+public typealias SessionDidBecomeInvalid = ((URLSession, Error?) -> Swift.Void)
+public typealias SessionDidReceiveChallenge = ((URLSession, URLAuthenticationChallenge, (@escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void)) -> Swift.Void)
+public typealias TaskOfSessionWillPerformHTTPRedirection = ((URLSessionTask, URLSession, HTTPURLResponse, URLRequest, @escaping (URLRequest?) -> Swift.Void) -> Swift.Void)
+public typealias TaskOfSessionDidReceiveChallenge = ((URLSessionTask, URLSession, URLAuthenticationChallenge, @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void) -> Swift.Void)
+public typealias TaskOfSessionNeedNewBodyStream = ((URLSessionTask, URLSession, @escaping (InputStream?) -> Swift.Void) -> Swift.Void)
+public typealias TaskOfSessionDidSendData = ((URLSessionTask, URLSession, Int64, Int64, Int64) -> Swift.Void)
+public typealias TaskOfSessionDidFinishCollecting = ((URLSessionTask, URLSession, URLSessionTaskMetrics) -> Swift.Void)
+public typealias TaskOfSessionDidComplete = ((URLSessionTask, URLSession, Error?) -> Swift.Void)
+public typealias DataTaskOfSessionDidReceiveResponse = ((URLSessionDataTask, URLSession, URLResponse, @escaping (URLSession.ResponseDisposition) -> Swift.Void) -> Swift.Void)
+public typealias DataTaskOfSessionDidBecomeDownloadTask = ((URLSessionDataTask, URLSession, URLSessionDownloadTask) -> Swift.Void)
+public typealias DataTaskOfSessionDidBecomeStreamTask = ((URLSessionDataTask, URLSession, URLSessionStreamTask) -> Swift.Void)
+public typealias DataTaskOfSessionDidReceiveData = ((URLSessionDataTask, URLSession, Data) -> Swift.Void)
+public typealias DataTaskOfSessionWillCacheResponse = ((URLSessionDataTask, URLSession, CachedURLResponse, @escaping (CachedURLResponse?) -> Swift.Void) -> Swift.Void)
+public typealias DownloadTaskOfSessionDidFinishDownloading = ((URLSessionDownloadTask, URLSession, URL) -> Swift.Void)
+public typealias DownloadTaskOfSessionDidWriteData = ((URLSessionDownloadTask, URLSession, Int64, Int64, Int64) -> Swift.Void)
+public typealias DownloadTaskOfSessionDidResume = ((URLSessionDownloadTask, URLSession, Int64, Int64) -> Swift.Void)
+public typealias StreamTaskOfSessionReadClosed = ((URLSessionStreamTask, URLSession) -> Swift.Void)
+public typealias StreamTaskOfSessionWriteClosed = ((URLSessionStreamTask, URLSession) -> Swift.Void)
+public typealias StreamTaskOfSessionBetterRouteDiscovered = ((URLSessionStreamTask, URLSession) -> Swift.Void)
+public typealias StreamTaskOfSessionDidBecomeInOutStream = ((URLSessionStreamTask, URLSession, InputStream, OutputStream) -> Swift.Void)
+
 /// Custom session delegate class for URLSession's callbacks and operations.
 public final class SessionDelegate: NSObject {
     /// Closure for `urlSession(_:didBecomeInvalidWithError:)` function in protocol `URLSessionDelegate`.
-    public var sessionDidBecomeInvalid: ((URLSession, Error?) -> Swift.Void)?
+    public var sessionDidBecomeInvalid: SessionDidBecomeInvalid?
     /// Closure for `urlSession(_:didReceive:completionHandler:)` function in protocol `URLSessionDelegate`.
-    public var sessionDidReceiveChallenge: ((URLSession, URLAuthenticationChallenge, (@escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void)) -> Swift.Void)?
+    public var sessionDidReceiveChallenge: SessionDidReceiveChallenge?
     
     /// Closure for `urlSession(_:task:willPerformHTTPRedirection:newRequest:completionHandler:)` function in protocol `URLSessionTaskDelegate`.
-    public var taskOfSessionWillPerformHTTPRedirection: ((URLSessionTask, URLSession, HTTPURLResponse, URLRequest, @escaping (URLRequest?) -> Swift.Void) -> Swift.Void)?
+    public var taskOfSessionWillPerformHTTPRedirection: TaskOfSessionWillPerformHTTPRedirection?
     /// Closure for `urlSession(_:task:didReceive:completionHandler:)` function in protocol `URLSessionTaskDelegate`.
-    public var taskOfSessionDidReceiveChallenge: ((URLSessionTask, URLSession, URLAuthenticationChallenge, @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void) -> Swift.Void)?
+    public var taskOfSessionDidReceiveChallenge: TaskOfSessionDidReceiveChallenge?
     /// Closure for `urlSession(_:task:needNewBodyStream:)` function in protocol `URLSessionTaskDelegate`.
-    public var taskOfSessionNeedNewBodyStream: ((URLSessionTask, URLSession, @escaping (InputStream?) -> Swift.Void) -> Swift.Void)?
+    public var taskOfSessionNeedNewBodyStream: TaskOfSessionNeedNewBodyStream?
     /// Closure for `urlSession(_:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:)` function in protocol `URLSessionTaskDelegate`.
-    public var taskOfSessionDidSendData: ((URLSessionTask, URLSession, Int64, Int64, Int64) -> Swift.Void)?
+    public var taskOfSessionDidSendData: TaskOfSessionDidSendData?
     /// Closure for `urlSession(_:task:didFinishCollecting:)` function in protocol `URLSessionTaskDelegate`.
-    public var taskOfSessionDidFinishCollecting: ((URLSessionTask, URLSession, URLSessionTaskMetrics) -> Swift.Void)?
+    public var taskOfSessionDidFinishCollecting: TaskOfSessionDidFinishCollecting?
     /// Closure for `urlSession(_:task:didComplete:)` function in protocol `URLSessionTaskDelegate`.
-    public var taskOfSessionDidComplete: ((URLSessionTask, URLSession, Error?) -> Swift.Void)?
+    public var taskOfSessionDidComplete: TaskOfSessionDidComplete?
     
     /// Closure for `urlSession(_:dataTask:didReceive:completionHandler:)` function in protocol `URLSessionDataDelegate`.
-    public var dataTaskOfSessionDidReceiveResponse: ((URLSessionDataTask, URLSession, URLResponse, @escaping (URLSession.ResponseDisposition) -> Swift.Void) -> Swift.Void)?
+    public var dataTaskOfSessionDidReceiveResponse: DataTaskOfSessionDidReceiveResponse?
     /// Closure for `urlSession(_:dataTask:didBecome:)` function in protocol `URLSessionDataDelegate`.
-    public var dataTaskOfSessionDidBecomeDownloadTask: ((URLSessionDataTask, URLSession, URLSessionDownloadTask) -> Swift.Void)?
+    public var dataTaskOfSessionDidBecomeDownloadTask: DataTaskOfSessionDidBecomeDownloadTask?
     /// Closure for `urlSession(_:dataTask:didBecome:)` function in protocol `URLSessionDataDelegate`.
-    public var dataTaskOfSessionDidBecomeStreamTask: ((URLSessionDataTask, URLSession, URLSessionStreamTask) -> Swift.Void)?
+    public var dataTaskOfSessionDidBecomeStreamTask: DataTaskOfSessionDidBecomeStreamTask?
     /// Closure for `urlSession(_:dataTask:didReceive:)` function in protocol `URLSessionDataDelegate`.
-    public var dataTaskOfSessionDidReceiveData: ((URLSessionDataTask, URLSession, Data) -> Swift.Void)?
+    public var dataTaskOfSessionDidReceiveData: DataTaskOfSessionDidReceiveData?
     /// Closure for `urlSession(_:dataTask:willCacheResponse:)` function in protocol `URLSessionDataDelegate`.
-    public var dataTaskOfSessionWillCacheResponse: ((URLSessionDataTask, URLSession, CachedURLResponse, @escaping (CachedURLResponse?) -> Swift.Void) -> Swift.Void)?
+    public var dataTaskOfSessionWillCacheResponse: DataTaskOfSessionWillCacheResponse?
 
     /// Closure for `urlSession(_:downloadTask:didFinishDownloadingTo:)` function in protocol `URLSessionDownloadDelegate`.
-    public var downloadTaskOfSessionDidFinishDownloading: ((URLSessionDownloadTask, URLSession, URL) -> Swift.Void)?
+    public var downloadTaskOfSessionDidFinishDownloading: DownloadTaskOfSessionDidFinishDownloading?
     /// Closure for `urlSession(_:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:)` function in protocol `URLSessionDownloadDelegate`.
-    public var downloadTaskOfSessionDidWriteData: ((URLSessionDownloadTask, URLSession, Int64, Int64, Int64) -> Swift.Void)?
+    public var downloadTaskOfSessionDidWriteData: DownloadTaskOfSessionDidWriteData?
     /// Closure for `urlSession(_:downloadTask:didResumeAtOffset:expectedTotalBytes:)` function in protocol `URLSessionDownloadDelegate`.
-    public var downloadTaskOfSessionDidResume: ((URLSessionDownloadTask, URLSession, Int64, Int64) -> Swift.Void)?
+    public var downloadTaskOfSessionDidResume: DownloadTaskOfSessionDidResume?
     
     /// Closure for `urlSession(_:readClosedFor:)` function in protocol `URLSessionStreamDelegate`.
-    public var streamTaskOfSessionReadClosed: ((URLSessionStreamTask, URLSession) -> Swift.Void)?
+    public var streamTaskOfSessionReadClosed: StreamTaskOfSessionReadClosed?
     /// Closure for `urlSession(_:writeClosedFor:)` function in protocol `URLSessionStreamDelegate`.
-    public var streamTaskOfSessionWriteClosed: ((URLSessionStreamTask, URLSession) -> Swift.Void)?
+    public var streamTaskOfSessionWriteClosed: StreamTaskOfSessionWriteClosed?
     /// Closure for `urlSession(_:betterRouteDiscoveredFor:)` function in protocol `URLSessionStreamDelegate`.
-    public var streamTaskOfSessionBetterRouteDiscovered: ((URLSessionStreamTask, URLSession) -> Swift.Void)?
+    public var streamTaskOfSessionBetterRouteDiscovered: StreamTaskOfSessionBetterRouteDiscovered?
     /// Closure for `urlSession(_streamTask:didBecome:outputStream:)` function in protocol `URLSessionStreamDelegate`.
-    public var streamTaskOfSessionDidBecomeInOutStream: ((URLSessionStreamTask, URLSession, InputStream, OutputStream) -> Swift.Void)?
+    public var streamTaskOfSessionDidBecomeInOutStream: StreamTaskOfSessionDidBecomeInOutStream?
     // MARK: URLCredential
     ///
     public var credentialOfChallenge: ((URLSession, URLSessionTask?, URLAuthenticationChallenge) -> URLCredential?)?
