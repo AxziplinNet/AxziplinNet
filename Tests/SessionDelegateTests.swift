@@ -35,13 +35,16 @@ class SessionDelegateTests: XCTestCase {
         }
     }
 
-    func testSessionUsingCustomDelegate() {
+    func testSessionTaskDidComplete() {
         let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
-        let task = session.dataTask(with: URLRequest(url: URL(string:"https://www.baidu.com")))
+        let task = session.dataTask(with: URLRequest(url: URL(string:"https://itunes.apple.com/cn/app/xun-qin-ji/id1166476826?mt=8")!))
         XCTAssertNotNil(task)
         let expectation = self.expectation(description: "expectation")
         expectation.expectedFulfillmentCount = 1
-        wait(for: [expectation], timeout: 30)
         task.resume()
+        delegate.taskOfSessionDidComplete = { task, session, error in
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 30)
     }
 }
