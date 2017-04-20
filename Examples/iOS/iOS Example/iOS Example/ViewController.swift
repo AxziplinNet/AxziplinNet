@@ -17,10 +17,17 @@ class ViewController: UIViewController {
         let delegate = SessionDelegate()
         delegate.dataTaskOfSessionDidReceiveData = { dataTask, session, data in
             print("\(data)")
-            
         }
-        let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
-        let task = session.dataTask(with: URLRequest(url: URL(string:"http://sh.dhjie.cn/exchangeStreet/user/client/general/flash/fetch")!))
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 30
+        let request = URLRequest(url: URL(string:"https://itunes.apple.com/cn/app/xun-qin-ji/id1166476826?mt=8")!, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30)
+        let session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: nil)
+        // let session = URLSession(configuration: configuration)
+        let task = session.dataTask(with: request)
+        // let task = session.dataTask(with: request) { (data, response, error) in
+        //     print("\(data)")
+        // }
+        
         task.resume()
     }
 
