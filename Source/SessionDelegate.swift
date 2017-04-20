@@ -55,6 +55,11 @@ public final class SessionDelegate: NSObject {
     /// Closure for `urlSession(_:dataTask:willCacheResponse:)` function in protocol `URLSessionDataDelegate`.
     public var dataTaskOfSessionWillCacheResponse: ((URLSessionDataTask, URLSession, CachedURLResponse, @escaping (CachedURLResponse?) -> Void) -> Void)?
 
+    /// Closure for `urlSession(_:downloadTask:didFinishDownloadingTo:)` function in protocol `URLSessionDownloadDelegate`.
+    public var downloadTaskOfSessionDidFinishDownloading: ((URLSessionDownloadTask, URLSession, URL) -> Void)?
+    // MARK: URLCredential
+    ///
+    public var credentialOfChallenge: ((URLSession, URLSessionTask?, URLAuthenticationChallenge) -> URLCredential?)?
 }
 
 // MARK: URLSessionDelegate
@@ -75,7 +80,35 @@ extension SessionDelegate: URLSessionDelegate {
     /// - parameter completionHandler: A handler that your delegate method must call providing the disposition
     ///                                and credential.
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        sessionDidReceiveChallenge?(session, challenge, completionHandler)
+        // Using did receive challenge closure.
+        if let _challenge = sessionDidReceiveChallenge {
+            _challenge(session, challenge, completionHandler)
+            return
+        }
+        // Run default configuration of challenge:
+        let previousFailureCount = challenge.previousFailureCount
+        // Cancel challenge if failed many times.
+        guard challenge.previousFailureCount == 0 else {
+            challenge.sender?.cancel(challenge)
+            completionHandler(.cancelAuthenticationChallenge, nil)
+            return
+        }
+        // Using the credential of custom closure results by user.
+        if let _credentialGetter = credentialOfChallenge {
+            if let _credential = _credentialGetter(session, nil, challenge) {
+                completionHandler(.useCredential, _credential)
+            }
+            return
+        }
+        
+        // Performing default handling without credential.
+        completionHandler(.performDefaultHandling, nil)
+        
+        let protectionSpace = challenge.protectionSpace
+        let proposedCredential = challenge.proposedCredential
+        let failureResponse = challenge.failureResponse
+        let error = challenge.error
+        let sender = challenge.sender
     }
 }
 
@@ -142,6 +175,8 @@ extension SessionDelegate: URLSessionTaskDelegate {
     }
 }
 
+// MARK: URLSessionDataDelegate
+
 extension SessionDelegate: URLSessionDataDelegate {
     /// Tells the delegate that the data task received the initial reply (headers) from the server.
     ///
@@ -192,6 +227,22 @@ extension SessionDelegate: URLSessionDataDelegate {
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Void) {
         dataTaskOfSessionWillCacheResponse?(dataTask, session, proposedResponse, completionHandler)
     }
+}
+
+// MARK: URLSessionDownloadDelegate
+
+extension SessionDelegate: URLSessionDownloadDelegate {
+    /// Tells the delegate that a download task has finished downloading.
+    ///
+    /// - parameter session:      The session containing the download task that finished.
+    /// - parameter downloadTask: The download task that finished.
+    /// - parameter location:     A file URL for the temporary file. Because the file is temporary, you must either
+    ///                           open the file for reading or move it to a permanent location in your app’s sandbox
+    ///                           container directory before returning from this delegate method.
+    public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        downloadTaskOfSessionDidFinishDownloading?(downloadTask, session, location)
+    }
+    
 }
 
 
