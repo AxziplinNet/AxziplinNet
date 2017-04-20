@@ -61,6 +61,9 @@ public final class SessionDelegate: NSObject {
     public var downloadTaskOfSessionDidWriteData: ((URLSessionDownloadTask, URLSession, Int64, Int64, Int64) -> Void)?
     /// Closure for `urlSession(_:downloadTask:didResumeAtOffset:expectedTotalBytes:)` function in protocol `URLSessionDownloadDelegate`.
     public var downloadTaskOfSessionDidResume: ((URLSessionDownloadTask, URLSession, Int64, Int64) -> Void)?
+    
+    /// Closure for `urlSession(_:readClosedFor:)` function in protocol `URLSessionStreamDelegate`.
+    public var streamTaskOfSessionReadClosed: ((URLSessionStreamTask, URLSession) -> Void)?
     // MARK: URLCredential
     ///
     public var credentialOfChallenge: ((URLSession, URLSessionTask?, URLAuthenticationChallenge) -> URLCredential?)?
@@ -271,6 +274,19 @@ extension SessionDelegate: URLSessionDownloadDelegate {
     ///                                 If this header was not provided, the value is NSURLSessionTransferSizeUnknown.
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didResumeAtOffset fileOffset: Int64, expectedTotalBytes: Int64) {
         downloadTaskOfSessionDidResume?(downloadTask, session, fileOffset, expectedTotalBytes)
+    }
+}
+
+// MARK: URLSessionStreamDelegate
+
+extension SessionDelegate: URLSessionStreamDelegate {
+    /// Tells the delegate that the read side of the underlying socket has been closed.
+    /// This method may be called even if no reads are currently in progress. This method does not indicate that the stream reached end-of-file (EOF), such that no more data can be read.
+    /// - Parameters:
+    ///   - session: The session containing the stream task that closed reads.
+    ///   - streamTask: The stream task that closed reads.
+    public func urlSession(_ session: URLSession, readClosedFor streamTask: URLSessionStreamTask) {
+        streamTaskOfSessionReadClosed?(streamTask, session)
     }
 }
 
