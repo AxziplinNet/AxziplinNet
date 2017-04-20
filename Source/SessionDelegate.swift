@@ -113,7 +113,6 @@ extension SessionDelegate: URLSessionDelegate {
             return
         }
         // Run default configuration of challenge:
-        let previousFailureCount = challenge.previousFailureCount
         // Cancel challenge if failed many times.
         guard challenge.previousFailureCount == 0 else {
             challenge.sender?.cancel(challenge)
@@ -130,12 +129,6 @@ extension SessionDelegate: URLSessionDelegate {
         
         // Performing default handling without credential.
         completionHandler(.performDefaultHandling, nil)
-        
-        let protectionSpace = challenge.protectionSpace
-        let proposedCredential = challenge.proposedCredential
-        let failureResponse = challenge.failureResponse
-        let error = challenge.error
-        let sender = challenge.sender
     }
 }
 
@@ -153,7 +146,12 @@ extension SessionDelegate: URLSessionTaskDelegate {
     ///   - completionHandler: A block that your handler should call with either the value of the request parameter, 
     ///                        a modified URL request object, or NULL to refuse the redirect and return the body of the redirect response.
     public func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: @escaping (URLRequest?) -> Swift.Void) {
-        taskOfSessionWillPerformHTTPRedirection?(task, session, response, request, completionHandler)
+        if let willPerformHTTPRedirection = taskOfSessionWillPerformHTTPRedirection {
+            willPerformHTTPRedirection(task, session, response, request, completionHandler)
+            return;
+        }
+        
+        completionHandler(request)
     }
     /// Requests credentials from the delegate in response to an authentication request from the remote server.
     /// This method handles task-level authentication challenges. The URLSessionDelegate protocol also provides a session-level authentication
@@ -193,7 +191,12 @@ extension SessionDelegate: URLSessionTaskDelegate {
     ///   - task:              The task that needs a new body stream.
     ///   - completionHandler: A completion handler that your delegate method should call with the new body stream.
     public func urlSession(_ session: URLSession, task: URLSessionTask, needNewBodyStream completionHandler: @escaping (InputStream?) -> Swift.Void) {
-        taskOfSessionNeedNewBodyStream?(task, session, completionHandler)
+        if let needNewBodyStream = taskOfSessionNeedNewBodyStream {
+            needNewBodyStream(task, session, completionHandler)
+            return
+        }
+        
+        completionHandler(nil)
     }
     /// Periodically informs the delegate of the progress of sending body content to the server.
     /// - Parameters:
@@ -249,7 +252,12 @@ extension SessionDelegate: URLSessionDataDelegate {
     ///                        - If you pass becomeDownload as the disposition, your delegate’s urlSession(_:dataTask:didBecome:)
     ///                          method is called to provide you with the new download task that supersedes the current task.
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Swift.Void) {
-        dataTaskOfSessionDidReceiveResponse?(dataTask, session, response, completionHandler)
+        if let didReceiveResponse = dataTaskOfSessionDidReceiveResponse {
+            didReceiveResponse(dataTask, session, response, completionHandler)
+            return
+        }
+        
+        completionHandler(.allow)
     }
     /// Tells the delegate that the data task was changed to a download task.
     /// When the delegate’s URLSession:dataTask:didReceiveResponse:completionHandler: method decides to change the disposition from a data request to a download, the session calls this delegate method to provide you with the new download task. After this call, the session delegate receives no further delegate method calls related to the original data task.
@@ -299,7 +307,12 @@ extension SessionDelegate: URLSessionDataDelegate {
     ///                        version of that response, or NULL to prevent caching the response. If your delegate implements this method, 
     ///                        it must call this completion handler; otherwise, your app leaks memory.
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Swift.Void) {
-        dataTaskOfSessionWillCacheResponse?(dataTask, session, proposedResponse, completionHandler)
+        if let willCacheResponse = dataTaskOfSessionWillCacheResponse {
+            willCacheResponse(dataTask, session, proposedResponse, completionHandler)
+            return
+        }
+        
+        completionHandler(proposedResponse)
     }
 }
 
