@@ -84,6 +84,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC18858D1EA846CA00343356 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				DC9CAA2A1EA7A292002D5F03 /* Main.storyboard */,
+				DC9CAA2F1EA7A292002D5F03 /* LaunchScreen.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		DC18858E1EA846D600343356 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DC9CAA321EA7A292002D5F03 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		DC9CAA1A1EA7A292002D5F03 = {
 			isa = PBXGroup;
 			children = (
@@ -106,10 +123,9 @@
 			children = (
 				DC9CAA261EA7A292002D5F03 /* AppDelegate.swift */,
 				DC9CAA281EA7A292002D5F03 /* ViewController.swift */,
-				DC9CAA2A1EA7A292002D5F03 /* Main.storyboard */,
 				DC9CAA2D1EA7A292002D5F03 /* Assets.xcassets */,
-				DC9CAA2F1EA7A292002D5F03 /* LaunchScreen.storyboard */,
-				DC9CAA321EA7A292002D5F03 /* Info.plist */,
+				DC18858D1EA846CA00343356 /* Storyboards */,
+				DC18858E1EA846D600343356 /* Supporting Files */,
 			);
 			path = "iOS Example";
 			sourceTree = "<group>";
