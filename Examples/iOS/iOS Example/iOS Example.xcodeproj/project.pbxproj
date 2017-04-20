@@ -104,9 +104,9 @@
 		DC9CAA1A1EA7A292002D5F03 = {
 			isa = PBXGroup;
 			children = (
-				DC9CAA381EA7A2C1002D5F03 /* AxziplinNet.xcodeproj */,
 				DC9CAA251EA7A292002D5F03 /* iOS Example */,
 				DC9CAA241EA7A292002D5F03 /* Products */,
+				DC9CAA381EA7A2C1002D5F03 /* AxziplinNet.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
