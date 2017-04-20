@@ -64,6 +64,8 @@ public final class SessionDelegate: NSObject {
     
     /// Closure for `urlSession(_:readClosedFor:)` function in protocol `URLSessionStreamDelegate`.
     public var streamTaskOfSessionReadClosed: ((URLSessionStreamTask, URLSession) -> Void)?
+    /// Closure for `urlSession(_:writeClosedFor:)` function in protocol `URLSessionStreamDelegate`.
+    public var streamTaskOfSessionWriteClosed: ((URLSessionStreamTask, URLSession) -> Void)?
     // MARK: URLCredential
     ///
     public var credentialOfChallenge: ((URLSession, URLSessionTask?, URLAuthenticationChallenge) -> URLCredential?)?
@@ -283,10 +285,18 @@ extension SessionDelegate: URLSessionStreamDelegate {
     /// Tells the delegate that the read side of the underlying socket has been closed.
     /// This method may be called even if no reads are currently in progress. This method does not indicate that the stream reached end-of-file (EOF), such that no more data can be read.
     /// - Parameters:
-    ///   - session: The session containing the stream task that closed reads.
+    ///   - session:    The session containing the stream task that closed reads.
     ///   - streamTask: The stream task that closed reads.
     public func urlSession(_ session: URLSession, readClosedFor streamTask: URLSessionStreamTask) {
         streamTaskOfSessionReadClosed?(streamTask, session)
+    }
+    /// Tells the delegate that the write side of the underlying socket has been closed.
+    /// This method may be called even if no writes are currently in progress.
+    /// - Parameters:
+    ///   - session:    The session containing the stream task that closed writes.
+    ///   - streamTask: The stream task that closed writes.
+    public func urlSession(_ session: URLSession, writeClosedFor streamTask: URLSessionStreamTask) {
+        streamTaskOfSessionWriteClosed?(streamTask, session)
     }
 }
 
