@@ -66,6 +66,8 @@ public final class SessionDelegate: NSObject {
     public var streamTaskOfSessionReadClosed: ((URLSessionStreamTask, URLSession) -> Void)?
     /// Closure for `urlSession(_:writeClosedFor:)` function in protocol `URLSessionStreamDelegate`.
     public var streamTaskOfSessionWriteClosed: ((URLSessionStreamTask, URLSession) -> Void)?
+    /// Closure for `urlSession(_:betterRouteDiscoveredFor:)` function in protocol `URLSessionStreamDelegate`.
+    public var streamTaskOfSessionBetterRouteDiscovered: ((URLSessionStreamTask, URLSession) -> Void)?
     // MARK: URLCredential
     ///
     public var credentialOfChallenge: ((URLSession, URLSessionTask?, URLAuthenticationChallenge) -> URLCredential?)?
@@ -297,6 +299,15 @@ extension SessionDelegate: URLSessionStreamDelegate {
     ///   - streamTask: The stream task that closed writes.
     public func urlSession(_ session: URLSession, writeClosedFor streamTask: URLSessionStreamTask) {
         streamTaskOfSessionWriteClosed?(streamTask, session)
+    }
+    /// Tells the delegate that a better route to the host has been detected for the stream.
+    /// This method is called when the URL loading system determines that a better route to the endpoint host is available. For example, this method may be called when a Wi-Fi interface becomes available.
+    /// You should consider completing pending work and creating a new stream task in order to take advantage of better routes when they become available.
+    /// - Parameters:
+    ///   - session:    The session of the stream task that discovered a better route.
+    ///   - streamTask: The stream task that discovered a better route.
+    public func urlSession(_ session: URLSession, betterRouteDiscoveredFor streamTask: URLSessionStreamTask) {
+        streamTaskOfSessionBetterRouteDiscovered?(streamTask, session)
     }
 }
 
