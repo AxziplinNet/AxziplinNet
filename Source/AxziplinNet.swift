@@ -25,7 +25,7 @@
 
 import Foundation
 
-class AxziplinNet: NSObject {
+public class AxziplinNet: NSObject {
 
 }
 
