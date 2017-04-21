@@ -65,6 +65,15 @@ public protocol RequestEncoding {
 
 public class Request {}
 
+public class URLEncoding: RequestEncoding {
+    
+    public func encode(url: URLConvertible, with parameters: Request.RequestParameters) throws -> URLRequest {
+        return URLRequest(url: URL(string: "")!)
+    }
+}
+
+// MARK: - Extensions.
+
 extension Request {
     public typealias RequestParameters = [String: Any]
 }
