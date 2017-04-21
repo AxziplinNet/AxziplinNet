@@ -81,6 +81,60 @@ public class Request {}
 /// collection types, the convention of appending `[]` to the key for array values (`foo[]=1&foo[]=2`), and appending
 /// the key surrounded by square brackets for nested dictionary values (`foo[bar]=baz`).
 public class URLEncoding: RequestEncoding {
+    /// Defines whether the url-encoded query string is applied to the existing query string or HTTP body of the
+    /// resulting URL request.
+    ///
+    /// - asMethod: Applies encoded query string result to existing query string for `GET`, `HEAD` and `DELETE`
+    ///                    requests and sets as the HTTP body for requests with any other HTTP method.
+    /// - asQuery:  Sets or appends encoded query string result to existing query string.
+    /// - asBody:   Sets encoded query string result as the HTTP body of the URL request.
+    public enum EncodingMethods {
+        case asMethod
+        case asQuery
+        case asBody
+        
+        private func shouldEncodeRequestParameters(with method: Request.HTTPMethod) -> Bool {
+            switch self {
+            case .asQuery:
+                return true
+            case .asBody:
+                return false
+            default:
+                break
+            }
+            
+            switch method {
+            case .get, .head, .delete:
+                return true
+            default:
+                return false
+            }
+        }
+    }
+    // MARK: Properties.
+    
+    /// Returns a default `URLEncoding` instance.
+    public class var `default`: URLEncoding { return URLEncoding() }
+    /// Returns a `URLEncoding` instance with a `.asMethod` destination.
+    public class var asMethod: URLEncoding { return .asMethod }
+    /// Returns a `URLEncoding` instance with a `.asQuery` destination.
+    public class var asQuery: URLEncoding { return URLEncoding(encodingMethod: .asQuery) }
+    /// Returns a `URLEncoding` instance with an `.URLEncoding` destination.
+    public class var asBody: URLEncoding { return URLEncoding(encodingMethod: .asBody) }
+    
+    /// The destination defining where the encoded query string is to be applied to the URL request.
+    public let encodingMethod: EncodingMethods
+    
+    // MARK: Initialization.
+    
+    /// Creates a `URLEncoding` instance using the specified method.
+    ///
+    /// - parameter destination: The method defining where the encoded query string is to be applied.
+    ///
+    /// - returns: The new `URLEncoding` instance.
+    public init(encodingMethod: EncodingMethods = .asMethod) {
+        self.encodingMethod = encodingMethod
+    }
     /// Creates a URL request by encoding parameters and applying them onto an existing request.
     ///
     /// - parameter urlRequest: The request to have parameters applied.
@@ -98,6 +152,20 @@ public class URLEncoding: RequestEncoding {
 
 extension Request {
     public typealias RequestParameters = [String: Any]
+}
+
+extension Request {
+    public enum HTTPMethod: String {
+        case options = "OPTIONS"
+        case get     = "GET"
+        case head    = "HEAD"
+        case post    = "POST"
+        case put     = "PUT"
+        case patch   = "PATCH"
+        case delete  = "DELETE"
+        case trace   = "TRACE"
+        case connect = "CONNECT"
+    }
 }
 
 extension Dictionary: URLQueryStringConvertible {
