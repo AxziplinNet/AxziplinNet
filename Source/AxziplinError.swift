@@ -26,5 +26,5 @@
 import Foundation
 
 public enum AxziplinError: Error {
-    
+    case InvalidURL(url: URLConvertible)
 }
