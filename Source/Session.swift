@@ -51,4 +51,12 @@ public final class Session {
     deinit {
         _session.invalidateAndCancel()
     }
+    
+    // MARK: Data Request.
+    
+    public func request(_ URL: URL, parameters: Request.RequestParameters) -> RequestResult? {
+        var request: URLRequest?
+        
+        return nil
+    }
 }
