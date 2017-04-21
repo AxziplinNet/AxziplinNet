@@ -31,6 +31,10 @@ public final class SessionDelegate: NSObject {
     public var sessionDidBecomeInvalid: SessionDidBecomeInvalid?
     /// Closure for `urlSession(_:didReceive:completionHandler:)` function in protocol `URLSessionDelegate`.
     public var sessionDidReceiveChallenge: SessionDidReceiveChallenge?
+#if !os(macOS)
+    /// Closure for `urlSessionDidFinishEvents(forBackgroundURLSession:)` function in protocol `URLSessionDelegate`.
+    public var sessionDidFinishedEvents: SessionDidFinishedEvents?
+#endif
     
     /// Closure for `urlSession(_:task:willPerformHTTPRedirection:newRequest:completionHandler:)` function in protocol `URLSessionTaskDelegate`.
     public var taskOfSessionWillPerformHTTPRedirection: TaskOfSessionWillPerformHTTPRedirection?
@@ -79,6 +83,7 @@ public final class SessionDelegate: NSObject {
 extension SessionDelegate {
     public typealias SessionDidBecomeInvalid                   = ((URLSession, Error?) -> Swift.Void)
     public typealias SessionDidReceiveChallenge                = ((URLSession, URLAuthenticationChallenge, (@escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void)) -> Swift.Void)
+    public typealias SessionDidFinishedEvents                  = ((URLSession) -> Swift.Void)
     public typealias TaskOfSessionWillPerformHTTPRedirection   = ((URLSessionTask, URLSession, HTTPURLResponse, URLRequest, @escaping (URLRequest?) -> Swift.Void) -> Swift.Void)
     public typealias TaskOfSessionDidReceiveChallenge          = ((URLSessionTask, URLSession, URLAuthenticationChallenge, @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void) -> Swift.Void)
     public typealias TaskOfSessionNeedNewBodyStream            = ((URLSessionTask, URLSession, @escaping (InputStream?) -> Swift.Void) -> Swift.Void)
@@ -154,11 +159,28 @@ extension SessionDelegate: URLSessionDelegate {
         // Performing default handling without credential.
         completionHandler(.performDefaultHandling, nil)
     }
+#if !os(macOS)
+    /// Tells the delegate that all messages enqueued for a session have been delivered.
+    /// In iOS, when a background transfer completes or requires credentials, if your app is no longer running, your app is automatically relaunched in the background, and the app’s UIApplicationDelegate is sent an application(_:handleEventsForBackgroundURLSession:completionHandler:) message. This call contains the identifier of the session that caused your app to be launched. Your app should then store that completion handler before creating a background configuration object with the same identifier, and creating a session with that configuration. The newly created session is automatically reassociated with ongoing background activity.
+    /// When your app later receives a URLSessionDidFinishEventsForBackgroundURLSession: message, this indicates that all messages previously enqueued for this session have been delivered, and that it is now safe to invoke the previously stored completion handler or to begin any internal updates that may result in invoking the completion handler.
+    /// - Important:
+    ///             Because the provided completion handler is part of UIKit, you must call it on your main thread. For example:
+    /// - Listing 1:
+    /// ```
+    /// [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    ///     storedHandler();
+    /// }];
+    /// ```
+    /// - Parameters:
+    ///   - session: The session that no longer has any outstanding requests.
+    public func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+        
+    }
+#endif
 }
 
 // MARK: URLSessionTaskDelegate
 
-@available(OSX 10.9, *)
 extension SessionDelegate: URLSessionTaskDelegate {
     /// Tells the delegate that the remote server requested an HTTP redirect.
     /// This method is called only for tasks in default and ephemeral sessions. Tasks in background sessions automatically follow redirects.
@@ -244,7 +266,7 @@ extension SessionDelegate: URLSessionTaskDelegate {
     ///   - session: The session collecting the metrics.
     ///   - task:    The task whose metrics have been collected.
     ///   - metrics: The collected metrics.
-    @available(OSX 10.12, *)
+    @available(iOS 10.0, OSX 10.12, tvOS 10.0, watchOS 3.0, *)
     public func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         taskOfSessionDidFinishCollecting?(task, session, metrics)
     }
@@ -299,6 +321,7 @@ extension SessionDelegate: URLSessionDataDelegate {
     ///   - session:    The session containing the task that was replaced by a stream task.
     ///   - dataTask:   The data task that was replaced by a stream task.
     ///   - streamTask: The new stream task that replaced the data task.
+    @available(iOS 9.0, OSX 10.11, *)
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didBecome streamTask: URLSessionStreamTask) {
         dataTaskOfSessionDidBecomeStreamTask?(dataTask, session, streamTask)
     }
@@ -393,6 +416,7 @@ extension SessionDelegate: URLSessionStreamDelegate {
     /// - Parameters:
     ///   - session:    The session containing the stream task that closed reads.
     ///   - streamTask: The stream task that closed reads.
+    @available(iOS 9.0, OSX 10.11, *)
     public func urlSession(_ session: URLSession, readClosedFor streamTask: URLSessionStreamTask) {
         streamTaskOfSessionReadClosed?(streamTask, session)
     }
@@ -401,6 +425,7 @@ extension SessionDelegate: URLSessionStreamDelegate {
     /// - Parameters:
     ///   - session:    The session containing the stream task that closed writes.
     ///   - streamTask: The stream task that closed writes.
+    @available(iOS 9.0, OSX 10.11, *)
     public func urlSession(_ session: URLSession, writeClosedFor streamTask: URLSessionStreamTask) {
         streamTaskOfSessionWriteClosed?(streamTask, session)
     }
@@ -410,6 +435,7 @@ extension SessionDelegate: URLSessionStreamDelegate {
     /// - Parameters:
     ///   - session:    The session of the stream task that discovered a better route.
     ///   - streamTask: The stream task that discovered a better route.
+    @available(iOS 9.0, OSX 10.11, *)
     public func urlSession(_ session: URLSession, betterRouteDiscoveredFor streamTask: URLSessionStreamTask) {
         streamTaskOfSessionBetterRouteDiscovered?(streamTask, session)
     }
@@ -420,6 +446,7 @@ extension SessionDelegate: URLSessionStreamDelegate {
     ///   - streamTask:   The stream task that has been completed.
     ///   - inputStream:  The created input stream. This InputStream object is unopened.
     ///   - outputStream: The created output stream. This OutputStream object is unopened
+    @available(iOS 9.0, OSX 10.11, *)
     public func urlSession(_ session: URLSession, streamTask: URLSessionStreamTask, didBecome inputStream: InputStream, outputStream: OutputStream) {
         streamTaskOfSessionDidBecomeInOutStream?(streamTask, session, inputStream, outputStream)
     }
