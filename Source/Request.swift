@@ -93,7 +93,7 @@ public class URLEncoding: RequestEncoding {
         case asQuery
         case asBody
         
-        private func shouldEncodeRequestParameters(with method: Request.HTTPMethod) -> Bool {
+        fileprivate func shouldEncodeRequestParameters(with method: Request.HTTPMethod) -> Bool {
             switch self {
             case .asQuery:
                 return true
