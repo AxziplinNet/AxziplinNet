@@ -68,7 +68,7 @@ public protocol RequestEncoding {
     /// - throws: An `AFError.parameterEncodingFailed` error if encoding fails.
     ///
     /// - returns: The encoded request.
-    func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters) throws -> URLRequest
+    func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters?) throws -> URLRequest
 }
 
 public class Request {}
@@ -143,8 +143,29 @@ public class URLEncoding: RequestEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    public func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters) throws -> URLRequest {
-        return URLRequest(url: URL(string: "")!)
+    public func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters?) throws -> URLRequest {
+        var urlRequest = try request.asURLRequest()
+        
+        guard let params = parameters else { return urlRequest }
+        
+        let paramQuery = try params.asQuery()
+        
+        if let method = Request.HTTPMethod(rawValue: urlRequest.httpMethod ?? "GET"), encodingMethod.shouldEncodeRequestParameters(with: method) {
+            guard let url = urlRequest.url else { throw AxziplinError.requestUrlEncodingFailed(reasion: .emptyUrl) }
+            
+            if var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false), !params.isEmpty {
+                let encodedQuery = (urlComponents.percentEncodedQuery.map({ string -> String in return string + "&" }) ?? "") + paramQuery
+                urlComponents.percentEncodedQuery = encodedQuery
+                urlRequest.url = urlComponents.url
+            }
+        } else {
+            if let _ = urlRequest.value(forHTTPHeaderField: "Content-Type") { } else {
+                urlRequest.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            }
+            urlRequest.httpBody = paramQuery.data(using: .utf8, allowLossyConversion: false)
+        }
+        
+        return urlRequest
     }
 }
 
@@ -170,7 +191,7 @@ extension Request {
 
 extension Dictionary: URLQueryStringConvertible {
     public func asQuery() throws -> String {
-        guard let _ = self as? [String: Any] else { throw AxziplinError.InvalidParametersKeyType(parameters: self) }
+        guard let _ = self as? [String: Any] else { throw AxziplinError.invalidParametersKeyType(parameters: self) }
         
         func _query() -> String {
             var components: [(String, String)] = []
@@ -243,7 +264,7 @@ extension URLQueryStringConvertible {
 // String to `URLConvertiable`.
 extension String: URLConvertible {
     public func asURL() throws -> URL {
-        guard let url = URL(string: self) else { throw AxziplinError.InvalidURL(url: self) }
+        guard let url = URL(string: self) else { throw AxziplinError.invalidURL(url: self) }
         return url
     }
 }
