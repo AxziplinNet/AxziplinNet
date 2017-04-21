@@ -47,7 +47,7 @@ public protocol URLConvertible {
     func asURL() throws -> URL
 }
 
-public protocol URLQueryStringConvertiable {
+public protocol URLQueryStringConvertible {
     func asQuery() throws -> String
 }
 
@@ -85,7 +85,7 @@ extension RequestEncoding {
     }
 }
 
-extension Dictionary: URLQueryStringConvertiable {
+extension Dictionary: URLQueryStringConvertible {
     public func asQuery() throws -> String {
         guard let _ = self as? [String: Any] else { throw AxziplinError.InvalidParametersKeyType(parameters: self) }
         
@@ -149,6 +149,10 @@ extension URLConvertible {
     }
 }
 
+extension URLQueryStringConvertible {
+    public var query: String? { return try? asQuery() }
+}
+// String to `URLConvertiable`.
 extension String: URLConvertible {
     public func asURL() throws -> URL {
         guard let url = URL(string: self) else { throw AxziplinError.InvalidURL(url: self) }
