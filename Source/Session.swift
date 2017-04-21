@@ -28,11 +28,19 @@ import Foundation
 @available(OSX 10.9, *)
 public final class Session {
     /// URL session instance object.
-    public let session: URLSession
-    /// Default URL session configuration.
-    private let _defaultSessionConfiguration = URLSessionConfiguration()
+    public var session: URLSession {
+        return _session
+    }
+    // MARK: - Private Properties
+    private var _session: URLSession
     
-    public init() {
-        session = URLSession(configuration: _defaultSessionConfiguration, delegate: nil, delegateQueue:nil)
+    // MARK: - Life Cycle.
+    
+    public init(configudation: URLSessionConfiguration = .default, delegate: SessionDelegate? = nil, delegateQueue: OperationQueue? = nil) {
+        _session = URLSession(configuration: configudation, delegate: delegate, delegateQueue: delegateQueue)
+    }
+    
+    deinit {
+        _session.invalidateAndCancel()
     }
 }
