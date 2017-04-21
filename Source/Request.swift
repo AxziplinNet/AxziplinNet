@@ -91,7 +91,12 @@ extension Dictionary: URLQueryStringConvertible {
         
         func _query() -> String {
             var components: [(String, String)] = []
-            
+            /// Creates percent-escaped, URL encoded query string components from the given key-value pair using recursion.
+            ///
+            /// - parameter key:   The key of the query component.
+            /// - parameter value: The value of the query component.
+            ///
+            /// - returns: The percent-escaped, URL encoded query string components.
             func _queryValue(fromKey key: String, value: Any) -> [(String, String)] {
                 var valueComponents: [(String, String)] = []
                 
