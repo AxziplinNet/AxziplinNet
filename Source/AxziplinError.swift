@@ -27,4 +27,6 @@ import Foundation
 
 public enum AxziplinError: Error {
     case InvalidURL(url: URLConvertible)
+    case InvalidRequest(request: URLRequestConvertible)
+    case InvalidParametersKeyType(parameters: Any)
 }
