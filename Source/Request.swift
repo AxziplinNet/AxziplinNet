@@ -36,6 +36,17 @@ public protocol URLRequestConvertible {
     func asURLRequest() throws -> URLRequest
 }
 
+/// Types adopting the `URLConvertible` protocol can be used to construct URLs, which are then used to construct
+/// URL requests.
+public protocol URLConvertible {
+    /// Returns a URL that conforms to RFC 2396 or throws an `Error`.
+    ///
+    /// - throws: An `Error` if the type cannot be converted to a `URL`.
+    ///
+    /// - returns: A URL or throws an `Error`.
+    func asURL() throws -> URL
+}
+
 public protocol RequestResult {
     
 }
@@ -56,4 +67,17 @@ extension URLRequestConvertible {
 
 extension URLRequest: URLRequestConvertible {
     public func asURLRequest() throws -> URLRequest { return self }
+}
+
+extension URLConvertible {
+    public var url: URL? {
+        return try? asURL()
+    }
+}
+
+extension String: URLConvertible {
+    public func asURL() throws -> URL {
+        guard let url = URL(string: self) else { throw AxziplinError.InvalidURL(url: self) }
+        return url
+    }
 }
