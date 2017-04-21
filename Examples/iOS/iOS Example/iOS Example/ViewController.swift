@@ -23,6 +23,7 @@ class ViewController: UIViewController {
         }
         delegate.taskOfSessionDidComplete = { task, session, error in
             let string = String(data: data, encoding: .utf8)
+            print(string ?? "")
             do {
                 try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
             } catch let err {
