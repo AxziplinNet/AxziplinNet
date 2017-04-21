@@ -116,7 +116,7 @@ extension String {
     /// should be percent-escaped in the query string.
     ///
     /// - returns: The percent-escaped string.
-    private func escaped() throws -> String {
+    fileprivate func escaped() -> String {
         let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
         let subDelimitersToEncode = "!$&'()*+,;="
         
