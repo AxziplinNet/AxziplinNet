@@ -18,6 +18,7 @@
 		DCCC708B1EA9D84F00F689BF /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCC708A1EA9D84F00F689BF /* Request.swift */; };
 		DCCC708C1EA9D91200F689BF /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCC708A1EA9D84F00F689BF /* Request.swift */; };
 		DCCC708E1EA9DF1700F689BF /* AxziplinError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCC708D1EA9DF1700F689BF /* AxziplinError.swift */; };
+		DCCC708F1EA9E05300F689BF /* AxziplinError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCC708D1EA9DF1700F689BF /* AxziplinError.swift */; };
 		DCD9B5E81EA7847500DDB021 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD9B5E71EA7847500DDB021 /* Tests.swift */; };
 		DCD9B5EA1EA7847500DDB021 /* AxziplinNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1885251EA7458C00343356 /* AxziplinNet.framework */; };
 		DCD9B5F11EA7855300DDB021 /* SessionDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD9B5F01EA7855300DDB021 /* SessionDelegateTests.swift */; };
@@ -288,6 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCCC708F1EA9E05300F689BF /* AxziplinError.swift in Sources */,
 				DCCC708C1EA9D91200F689BF /* Request.swift in Sources */,
 				DC9CAA0E1EA7A17F002D5F03 /* SessionDelegate.swift in Sources */,
 				DC9CAA0F1EA7A17F002D5F03 /* Session.swift in Sources */,
