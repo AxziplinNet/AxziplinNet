@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 30
         var request = URLRequest(url: URL(string:"https://itunes.apple.com/cn/app/xun-qin-ji/id1166476826?mt=8")!, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30)
-        request.httpMethod = AxziplinNet.HTTPMethod.get.rawValue
+        request.httpMethod = Request.HTTPMethod.get.rawValue
         let session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: nil)
         // let session = URLSession(configuration: configuration)
         let task = session.dataTask(with: request)
