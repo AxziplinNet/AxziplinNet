@@ -72,7 +72,14 @@ public protocol RequestEncoding {
 }
 
 public class Request {}
-
+/// Creates a url-encoded query string to be set as or appended to any existing URL query string or set as the HTTP
+/// body of the URL request. Whether the query string is set or appended to any existing URL query string or set as
+/// the HTTP body depends on the destination of the encoding.
+///
+/// The `Content-Type` HTTP header field of an encoded request with HTTP body is set to
+/// `application/x-www-form-urlencoded; charset=utf-8`. Since there is no published specification for how to encode
+/// collection types, the convention of appending `[]` to the key for array values (`foo[]=1&foo[]=2`), and appending
+/// the key surrounded by square brackets for nested dictionary values (`foo[bar]=baz`).
 public class URLEncoding: RequestEncoding {
     /// Creates a URL request by encoding parameters and applying them onto an existing request.
     ///
