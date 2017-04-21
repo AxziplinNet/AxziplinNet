@@ -29,4 +29,10 @@ public enum AxziplinError: Error {
     case invalidURL(url: URLConvertible)
     case invalidRequest(request: URLRequestConvertible)
     case invalidParametersKeyType(parameters: Any)
+    
+    public enum RequestUrlEncodingFailure {
+        case emptyUrl
+    }
+    
+    case requestUrlEncodingFailed(reasion: RequestUrlEncodingFailure)
 }
