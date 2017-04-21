@@ -60,14 +60,29 @@ public protocol RequestResult {
 }
 
 public protocol RequestEncoding {
-    func encode(url: URLConvertible, with parameters: Request.RequestParameters) throws -> URLRequest
+    /// Creates a URL request by encoding parameters and applying them onto an existing request.
+    ///
+    /// - parameter request:    The request to have parameters applied.
+    /// - parameter parameters: The parameters to apply.
+    ///
+    /// - throws: An `AFError.parameterEncodingFailed` error if encoding fails.
+    ///
+    /// - returns: The encoded request.
+    func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters) throws -> URLRequest
 }
 
 public class Request {}
 
 public class URLEncoding: RequestEncoding {
-    
-    public func encode(url: URLConvertible, with parameters: Request.RequestParameters) throws -> URLRequest {
+    /// Creates a URL request by encoding parameters and applying them onto an existing request.
+    ///
+    /// - parameter urlRequest: The request to have parameters applied.
+    /// - parameter parameters: The parameters to apply.
+    ///
+    /// - throws: An `Error` if the encoding process encounters an error.
+    ///
+    /// - returns: The encoded request.
+    public func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters) throws -> URLRequest {
         return URLRequest(url: URL(string: "")!)
     }
 }
@@ -76,13 +91,6 @@ public class URLEncoding: RequestEncoding {
 
 extension Request {
     public typealias RequestParameters = [String: Any]
-}
-
-extension RequestEncoding {
-    public func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters) throws -> URLRequest {
-        guard let url = request.request?.url else { throw AxziplinError.InvalidRequest(request: request) }
-        return try encode(url: url, with: parameters)
-    }
 }
 
 extension Dictionary: URLQueryStringConvertible {
