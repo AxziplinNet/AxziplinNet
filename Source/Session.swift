@@ -27,19 +27,27 @@ import Foundation
 /// Session manager of url requests.
 @available(OSX 10.9, *)
 public final class Session {
-    /// URL session instance object.
+    // MARK: -
+    // MARK: Properties.
+    /// Get the managed session object of `Session` class.
     public var session: URLSession {
         return _session
     }
-    // MARK: - Private Properties
+    // MARK: Private Properties.
+    /// Underlying sessiong instance object of URLSession.
     private var _session: URLSession
     
     // MARK: - Life Cycle.
-    
-    public init(configudation: URLSessionConfiguration = .default, delegate: SessionDelegate? = nil, delegateQueue: OperationQueue? = nil) {
-        _session = URLSession(configuration: configudation, delegate: delegate, delegateQueue: delegateQueue)
+    /// Creates a `Session` object using a configuration, delegate and delege queue.
+    ///
+    /// - Parameters:
+    ///   - configuration: Object of `URLSessionConfiguration` to create underlying `URLSession` object.
+    ///   - delegate     : Delegate object of `SessionDelegate` to create underlying `URLSession` object.
+    ///   - delegateQueue: `OperationQueue` object used by `URLSession` delegate.
+    public init(configuration: URLSessionConfiguration = .default, delegate: SessionDelegate? = nil, delegateQueue: OperationQueue? = nil) {
+        _session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: delegateQueue)
     }
-    
+    /// Releases all resources.
     deinit {
         _session.invalidateAndCancel()
     }
