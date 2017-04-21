@@ -27,6 +27,8 @@ import Foundation
 
 /// Custom session delegate class for URLSession's callbacks and operations.
 public final class SessionDelegate: NSObject {
+    // MARK: - URLSessionDelegate closures.
+    
     /// Closure for `urlSession(_:didBecomeInvalidWithError:)` function in protocol `URLSessionDelegate`.
     public var sessionDidBecomeInvalid: SessionDidBecomeInvalid?
     /// Closure for `urlSession(_:didReceive:completionHandler:)` function in protocol `URLSessionDelegate`.
@@ -45,7 +47,15 @@ public final class SessionDelegate: NSObject {
     /// Closure for `urlSession(_:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:)` function in protocol `URLSessionTaskDelegate`.
     public var taskOfSessionDidSendData: TaskOfSessionDidSendData?
     /// Closure for `urlSession(_:task:didFinishCollecting:)` function in protocol `URLSessionTaskDelegate`.
-    public var taskOfSessionDidFinishCollecting: TaskOfSessionDidFinishCollecting?
+    @available(iOS 10.0, OSX 10.12, tvOS 10.0, watchOS 3.0, *)
+    public var taskOfSessionDidFinishCollecting: TaskOfSessionDidFinishCollecting? {
+        get {
+            return _taskOfSessionDidFinishCollecting as? TaskOfSessionDidFinishCollecting
+        }
+        set {
+            _taskOfSessionDidFinishCollecting = newValue
+        }
+    }
     /// Closure for `urlSession(_:task:didComplete:)` function in protocol `URLSessionTaskDelegate`.
     public var taskOfSessionDidComplete: TaskOfSessionDidComplete?
     
@@ -54,7 +64,15 @@ public final class SessionDelegate: NSObject {
     /// Closure for `urlSession(_:dataTask:didBecome:)` function in protocol `URLSessionDataDelegate`.
     public var dataTaskOfSessionDidBecomeDownloadTask: DataTaskOfSessionDidBecomeDownloadTask?
     /// Closure for `urlSession(_:dataTask:didBecome:)` function in protocol `URLSessionDataDelegate`.
-    public var dataTaskOfSessionDidBecomeStreamTask: DataTaskOfSessionDidBecomeStreamTask?
+    @available(iOS 9.0, OSX 10.11, *)
+    public var dataTaskOfSessionDidBecomeStreamTask: DataTaskOfSessionDidBecomeStreamTask? {
+        get {
+            return _dataTaskOfSessionDidBecomeStreamTask as? DataTaskOfSessionDidBecomeStreamTask
+        }
+        set {
+            _dataTaskOfSessionDidBecomeStreamTask = newValue
+        }
+    }
     /// Closure for `urlSession(_:dataTask:didReceive:)` function in protocol `URLSessionDataDelegate`.
     public var dataTaskOfSessionDidReceiveData: DataTaskOfSessionDidReceiveData?
     /// Closure for `urlSession(_:dataTask:willCacheResponse:)` function in protocol `URLSessionDataDelegate`.
@@ -68,13 +86,51 @@ public final class SessionDelegate: NSObject {
     public var downloadTaskOfSessionDidResume: DownloadTaskOfSessionDidResume?
     
     /// Closure for `urlSession(_:readClosedFor:)` function in protocol `URLSessionStreamDelegate`.
-    public var streamTaskOfSessionReadClosed: StreamTaskOfSessionReadClosed?
+    @available(iOS 9.0, OSX 10.11, *)
+    public var streamTaskOfSessionReadClosed: StreamTaskOfSessionReadClosed? {
+        get {
+            return _streamTaskOfSessionReadClosed as? StreamTaskOfSessionReadClosed
+        }
+        set {
+            _streamTaskOfSessionReadClosed = newValue
+        }
+    }
     /// Closure for `urlSession(_:writeClosedFor:)` function in protocol `URLSessionStreamDelegate`.
-    public var streamTaskOfSessionWriteClosed: StreamTaskOfSessionWriteClosed?
+    @available(iOS 9.0, OSX 10.11, *)
+    public var streamTaskOfSessionWriteClosed: StreamTaskOfSessionWriteClosed? {
+        get {
+            return _streamTaskOfSessionWriteClosed as? StreamTaskOfSessionWriteClosed
+        }
+        set {
+            _streamTaskOfSessionWriteClosed = newValue
+        }
+    }
     /// Closure for `urlSession(_:betterRouteDiscoveredFor:)` function in protocol `URLSessionStreamDelegate`.
-    public var streamTaskOfSessionBetterRouteDiscovered: StreamTaskOfSessionBetterRouteDiscovered?
+    @available(iOS 9.0, OSX 10.11, *)
+    public var streamTaskOfSessionBetterRouteDiscovered: StreamTaskOfSessionBetterRouteDiscovered? {
+        get {
+            return _streamTaskOfSessionBetterRouteDiscovered as? StreamTaskOfSessionBetterRouteDiscovered
+        }
+        set {
+            _streamTaskOfSessionBetterRouteDiscovered = newValue
+        }
+    }
     /// Closure for `urlSession(_streamTask:didBecome:outputStream:)` function in protocol `URLSessionStreamDelegate`.
-    public var streamTaskOfSessionDidBecomeInOutStream: StreamTaskOfSessionDidBecomeInOutStream?
+    @available(iOS 9.0, OSX 10.11, *)
+    public var streamTaskOfSessionDidBecomeInOutStream: StreamTaskOfSessionDidBecomeInOutStream? {
+        get {
+            return _streamTaskOfSessionDidBecomeInOutStream as? StreamTaskOfSessionDidBecomeInOutStream
+        }
+        set {
+            _streamTaskOfSessionDidBecomeInOutStream = newValue
+        }
+    }
+    private var _taskOfSessionDidFinishCollecting:         Any?
+    private var _dataTaskOfSessionDidBecomeStreamTask:     Any?
+    private var _streamTaskOfSessionReadClosed:            Any?
+    private var _streamTaskOfSessionWriteClosed:           Any?
+    private var _streamTaskOfSessionBetterRouteDiscovered: Any?
+    private var _streamTaskOfSessionDidBecomeInOutStream:  Any?
     // MARK: URLCredential
     ///
     public var credentialOfChallenge: ((URLSession, URLSessionTask?, URLAuthenticationChallenge) -> URLCredential?)?
@@ -174,7 +230,7 @@ extension SessionDelegate: URLSessionDelegate {
     /// - Parameters:
     ///   - session: The session that no longer has any outstanding requests.
     public func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
-        
+        sessionDidFinishedEvents?(session)
     }
 #endif
 }
@@ -410,13 +466,13 @@ extension SessionDelegate: URLSessionDownloadDelegate {
 
 // MARK: URLSessionStreamDelegate
 
+@available(iOS 9.0, OSX 10.11, *)
 extension SessionDelegate: URLSessionStreamDelegate {
     /// Tells the delegate that the read side of the underlying socket has been closed.
     /// This method may be called even if no reads are currently in progress. This method does not indicate that the stream reached end-of-file (EOF), such that no more data can be read.
     /// - Parameters:
     ///   - session:    The session containing the stream task that closed reads.
     ///   - streamTask: The stream task that closed reads.
-    @available(iOS 9.0, OSX 10.11, *)
     public func urlSession(_ session: URLSession, readClosedFor streamTask: URLSessionStreamTask) {
         streamTaskOfSessionReadClosed?(streamTask, session)
     }
@@ -425,7 +481,6 @@ extension SessionDelegate: URLSessionStreamDelegate {
     /// - Parameters:
     ///   - session:    The session containing the stream task that closed writes.
     ///   - streamTask: The stream task that closed writes.
-    @available(iOS 9.0, OSX 10.11, *)
     public func urlSession(_ session: URLSession, writeClosedFor streamTask: URLSessionStreamTask) {
         streamTaskOfSessionWriteClosed?(streamTask, session)
     }
@@ -435,7 +490,6 @@ extension SessionDelegate: URLSessionStreamDelegate {
     /// - Parameters:
     ///   - session:    The session of the stream task that discovered a better route.
     ///   - streamTask: The stream task that discovered a better route.
-    @available(iOS 9.0, OSX 10.11, *)
     public func urlSession(_ session: URLSession, betterRouteDiscoveredFor streamTask: URLSessionStreamTask) {
         streamTaskOfSessionBetterRouteDiscovered?(streamTask, session)
     }
@@ -446,7 +500,6 @@ extension SessionDelegate: URLSessionStreamDelegate {
     ///   - streamTask:   The stream task that has been completed.
     ///   - inputStream:  The created input stream. This InputStream object is unopened.
     ///   - outputStream: The created output stream. This OutputStream object is unopened
-    @available(iOS 9.0, OSX 10.11, *)
     public func urlSession(_ session: URLSession, streamTask: URLSessionStreamTask, didBecome inputStream: InputStream, outputStream: OutputStream) {
         streamTaskOfSessionDidBecomeInOutStream?(streamTask, session, inputStream, outputStream)
     }
