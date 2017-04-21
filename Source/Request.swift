@@ -47,6 +47,14 @@ public protocol URLConvertible {
     func asURL() throws -> URL
 }
 
+public protocol URLQueryStringConvertiable {
+    func asQuery() throws -> String
+}
+
+public protocol StringConvertiable: Hashable {
+    func asString() throws -> String
+}
+
 public protocol RequestResult {
     
 }
