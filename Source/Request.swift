@@ -60,7 +60,7 @@ public protocol RequestResult {
 }
 
 public protocol RequestEncoding {
-    func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters) throws -> URLRequest?
+    func encode(url: URLConvertible, with parameters: Request.RequestParameters) throws -> URLRequest
 }
 
 public class Request {}
