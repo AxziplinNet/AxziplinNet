@@ -78,6 +78,63 @@ extension Request {
     public typealias RequestParameters = [String: Any]
 }
 
+extension RequestEncoding {
+    public func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters) throws -> URLRequest {
+        guard let url = request.request?.url else { throw AxziplinError.InvalidRequest(request: request) }
+        return try encode(url: url, with: parameters)
+    }
+}
+
+extension Dictionary: URLQueryStringConvertiable {
+    public func asQuery() throws -> String {
+        guard let _ = self as? [String: Any] else { throw AxziplinError.InvalidParametersKeyType(parameters: self) }
+        
+        func _query() -> String {
+            var components: [(String, String)] = []
+            
+            func _queryValue(fromKey key: String, value: Any) -> [(String, String)] {
+                var valueComponents: [(String, String)] = []
+                
+                switch value {
+                case is [String: Any]:
+                    let dictionary = value as! [String: Any]
+                    for (nestedKey, nestedValue) in dictionary {
+                        valueComponents += _queryValue(fromKey: "\(key)[\(nestedKey)]", value: nestedValue)
+                    }
+                case is [Any]:
+                    let array = value as! [Any]
+                    for nestedValue in array {
+                        valueComponents += _queryValue(fromKey: "\(key)[]", value: nestedValue)
+                    }
+                case is NSNumber, is Bool:
+                    if let number = value as? NSNumber {
+                        // Is bool.
+                        if CFBooleanGetTypeID() == CFGetTypeID(number) {
+                            valueComponents += [(key.escaped, (number.boolValue ? "1" : "0").escaped)]
+                        } else {
+                            valueComponents += [(key.escaped, "\(number)".escaped)]
+                        }
+                    } else if let bool = value as? Bool {
+                        valueComponents += [(key.escaped, (bool ? "1" : "0").escaped)]
+                    }
+                default:
+                    valueComponents += [(key.escaped, "\(value)".escaped)]
+                }
+                
+                return components
+            }
+            
+            for (key, value) in self {
+                components += _queryValue(fromKey: key as! String, value: value)
+            }
+            
+            return components.map { "\($0)=\($1)" }.joined(separator: "&")
+        }
+        
+        return _query()
+    }
+}
+
 extension URLRequestConvertible {
     var request: URLRequest? { return try? asURLRequest() }
 }
