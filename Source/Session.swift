@@ -29,10 +29,10 @@ import Foundation
 public final class Session {
     // MARK: -
     // MARK: Properties.
+    public class var `default`: Session { return Session() }
+    
     /// Get the managed session object of `Session` class.
-    public var session: URLSession {
-        return _session
-    }
+    public var session: URLSession { return _session }
     // MARK: Private Properties.
     /// Underlying sessiong instance object of URLSession.
     private var _session: URLSession
@@ -54,9 +54,13 @@ public final class Session {
     
     // MARK: Data Request.
     
-    public func request(_ URL: URL, parameters: Request.RequestParameters) -> RequestResult? {
-        var request: URLRequest?
-        
+    public func request(
+        _ url: URLConvertible,
+        using method: Request.HTTPMethod = .get,
+        with parameters: Request.RequestParameters? = nil,
+        encoding: Request.URLEncoding = .default,
+        headers: Request.RequestHeaders? = nil) -> RequestResult?
+    {
         return nil
     }
 }
