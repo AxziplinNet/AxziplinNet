@@ -71,69 +71,77 @@ public protocol RequestEncoding {
 }
 
 public class Request {}
-/// Creates a url-encoded query string to be set as or appended to any existing URL query string or set as the HTTP
-/// body of the URL request. Whether the query string is set or appended to any existing URL query string or set as
-/// the HTTP body depends on the destination of the encoding.
-///
-/// The `Content-Type` HTTP header field of an encoded request with HTTP body is set to
-/// `application/x-www-form-urlencoded; charset=utf-8`. Since there is no published specification for how to encode
-/// collection types, the convention of appending `[]` to the key for array values (`foo[]=1&foo[]=2`), and appending
-/// the key surrounded by square brackets for nested dictionary values (`foo[bar]=baz`).
-public class URLEncoding: RequestEncoding {
-    /// Defines whether the url-encoded query string is applied to the existing query string or HTTP body of the
-    /// resulting URL request.
+
+// MARK: - Extensions.
+
+extension Request {
+    /// Creates a url-encoded query string to be set as or appended to any existing URL query string or set as the HTTP
+    /// body of the URL request. Whether the query string is set or appended to any existing URL query string or set as
+    /// the HTTP body depends on the destination of the encoding.
     ///
-    /// - asMethod: Applies encoded query string result to existing query string for `GET`, `HEAD` and `DELETE`
-    ///                    requests and sets as the HTTP body for requests with any other HTTP method.
-    /// - asQuery:  Sets or appends encoded query string result to existing query string.
-    /// - asBody:   Sets encoded query string result as the HTTP body of the URL request.
-    public enum EncodingMethods {
-        case asMethod
-        case asQuery
-        case asBody
-        
-        fileprivate func shouldEncodeRequestParameters(with method: Request.HTTPMethod) -> Bool {
-            switch self {
-            case .asQuery:
-                return true
-            case .asBody:
-                return false
-            default:
-                break
-            }
+    /// The `Content-Type` HTTP header field of an encoded request with HTTP body is set to
+    /// `application/x-www-form-urlencoded; charset=utf-8`. Since there is no published specification for how to encode
+    /// collection types, the convention of appending `[]` to the key for array values (`foo[]=1&foo[]=2`), and appending
+    /// the key surrounded by square brackets for nested dictionary values (`foo[bar]=baz`).
+    public struct URLEncoding {
+        /// Defines whether the url-encoded query string is applied to the existing query string or HTTP body of the
+        /// resulting URL request.
+        ///
+        /// - asMethod: Applies encoded query string result to existing query string for `GET`, `HEAD` and `DELETE`
+        ///                    requests and sets as the HTTP body for requests with any other HTTP method.
+        /// - asQuery:  Sets or appends encoded query string result to existing query string.
+        /// - asBody:   Sets encoded query string result as the HTTP body of the URL request.
+        public enum EncodingMethods {
+            case asMethod
+            case asQuery
+            case asBody
             
-            switch method {
-            case .get, .head, .delete:
-                return true
-            default:
-                return false
+            fileprivate func shouldEncodeRequestParameters(with method: Request.HTTPMethod) -> Bool {
+                switch self {
+                case .asQuery:
+                    return true
+                case .asBody:
+                    return false
+                default:
+                    break
+                }
+                
+                switch method {
+                case .get, .head, .delete:
+                    return true
+                default:
+                    return false
+                }
             }
         }
+        // MARK: Properties.
+        
+        /// Returns a default `URLEncoding` instance.
+        public static var `default`: URLEncoding { return .httpMethod }
+        /// Returns a `URLEncoding` instance with a `.asMethod` destination.
+        public static var httpMethod: URLEncoding { return URLEncoding() }
+        /// Returns a `URLEncoding` instance with a `.asQuery` destination.
+        public static var query: URLEncoding { return URLEncoding(encodingMethod: .asQuery) }
+        /// Returns a `URLEncoding` instance with an `.URLEncoding` destination.
+        public static var httpBody: URLEncoding { return URLEncoding(encodingMethod: .asBody) }
+        
+        /// The destination defining where the encoded query string is to be applied to the URL request.
+        public let encodingMethod: EncodingMethods
+        
+        // MARK: Initialization.
+        
+        /// Creates a `URLEncoding` instance using the specified method.
+        ///
+        /// - parameter destination: The method defining where the encoded query string is to be applied.
+        ///
+        /// - returns: The new `URLEncoding` instance.
+        public init(encodingMethod: EncodingMethods = .asMethod) {
+            self.encodingMethod = encodingMethod
+        }
     }
-    // MARK: Properties.
-    
-    /// Returns a default `URLEncoding` instance.
-    public class var `default`: URLEncoding { return .httpMethod }
-    /// Returns a `URLEncoding` instance with a `.asMethod` destination.
-    public class var httpMethod: URLEncoding { return URLEncoding() }
-    /// Returns a `URLEncoding` instance with a `.asQuery` destination.
-    public class var query: URLEncoding { return URLEncoding(encodingMethod: .asQuery) }
-    /// Returns a `URLEncoding` instance with an `.URLEncoding` destination.
-    public class var httpBody: URLEncoding { return URLEncoding(encodingMethod: .asBody) }
-    
-    /// The destination defining where the encoded query string is to be applied to the URL request.
-    public let encodingMethod: EncodingMethods
-    
-    // MARK: Initialization.
-    
-    /// Creates a `URLEncoding` instance using the specified method.
-    ///
-    /// - parameter destination: The method defining where the encoded query string is to be applied.
-    ///
-    /// - returns: The new `URLEncoding` instance.
-    public init(encodingMethod: EncodingMethods = .asMethod) {
-        self.encodingMethod = encodingMethod
-    }
+}
+
+extension Request.URLEncoding: RequestEncoding {
     /// Creates a URL request by encoding parameters and applying them onto an existing request.
     ///
     /// - parameter urlRequest: The request to have parameters applied.
@@ -167,31 +175,34 @@ public class URLEncoding: RequestEncoding {
         return urlRequest
     }
 }
-/// Uses `JSONSerialization` to create a JSON representation of the parameters object, which is set as the body of the
-/// request. The `Content-Type` HTTP header field of an encoded request is set to `application/json`.
-public class JSONEncoding: RequestEncoding {
-    // MARK: Properties
-    
-    /// Returns a `JSONEncoding` instance with default writing options.
-    public class var `default`: JSONEncoding { return .prettyPrinted }
-    /// Returns a `JSONEncoding` instance with `.prettyPrinted` writing options.
-    public class var prettyPrinted: JSONEncoding { return JSONEncoding() }
-    /// The options for writing the parameters as JSON data.
-    private let options: JSONSerialization.WritingOptions
-    
-    // MARK: Initialization
-    
-    /// Creates a `JSONEncoding` instance using the specified options.
-    ///
-    /// - parameter options: The options for writing the parameters as JSON data.
-    ///
-    /// - returns: The new `JSONEncoding` instance.
-    public init(options: JSONSerialization.WritingOptions = .prettyPrinted) {
-        self.options = options
+
+extension Request {
+    /// Uses `JSONSerialization` to create a JSON representation of the parameters object, which is set as the body of the
+    /// request. The `Content-Type` HTTP header field of an encoded request is set to `application/json`.
+    public struct JSONEncoding {
+        // MARK: Properties
+        
+        /// Returns a `JSONEncoding` instance with default writing options.
+        public static var `default`: JSONEncoding { return .prettyPrinted }
+        /// Returns a `JSONEncoding` instance with `.prettyPrinted` writing options.
+        public static var prettyPrinted: JSONEncoding { return JSONEncoding() }
+        /// The options for writing the parameters as JSON data.
+        private let options: JSONSerialization.WritingOptions
+        
+        // MARK: Initialization
+        
+        /// Creates a `JSONEncoding` instance using the specified options.
+        ///
+        /// - parameter options: The options for writing the parameters as JSON data.
+        ///
+        /// - returns: The new `JSONEncoding` instance.
+        public init(options: JSONSerialization.WritingOptions = .prettyPrinted) {
+            self.options = options
+        }
     }
-    
-    // MARK: Encoding
-    
+}
+
+extension Request.JSONEncoding: RequestEncoding {
     /// Creates a URL request by encoding parameters and applying them onto an existing request.
     ///
     /// - parameter urlRequest: The request to have parameters applied.
@@ -224,39 +235,41 @@ public class JSONEncoding: RequestEncoding {
     }
 }
 
-/// Uses `PropertyListSerialization` to create a plist representation of the parameters object, according to the
-/// associated format and write options values, which is set as the body of the request. The `Content-Type` HTTP header
-/// field of an encoded request is set to `application/x-plist`.
-public class PListEncoding: RequestEncoding {
-    
-    // MARK: Properties
-    
-    /// Returns a default `PropertyListEncoding` instance.
-    public class var `default`: PListEncoding { return PListEncoding() }
-    /// Returns a `PropertyListEncoding` instance with xml formatting and default writing options.
-    public class var xml: PListEncoding { return PListEncoding(format: .xml) }
-    /// Returns a `PropertyListEncoding` instance with binary formatting and default writing options.
-    public class var binary: PListEncoding { return PListEncoding(format: .binary) }
-    /// The property list serialization format.
-    public let format: PropertyListSerialization.PropertyListFormat
-    /// The options for writing the parameters as plist data.
-    public let options: PropertyListSerialization.WriteOptions
-    
-    // MARK: Initialization
-    
-    /// Creates a `PropertyListEncoding` instance using the specified format and options.
-    ///
-    /// - parameter format:  The property list serialization format.
-    /// - parameter options: The options for writing the parameters as plist data.
-    ///
-    /// - returns: The new `PropertyListEncoding` instance.
-    public init(format: PropertyListSerialization.PropertyListFormat = .xml, options: PropertyListSerialization.WriteOptions = 0) {
-        self.format = format
-        self.options = options
+extension Request {
+    /// Uses `PropertyListSerialization` to create a plist representation of the parameters object, according to the
+    /// associated format and write options values, which is set as the body of the request. The `Content-Type` HTTP header
+    /// field of an encoded request is set to `application/x-plist`.
+    public struct PListEncoding {
+        
+        // MARK: Properties
+        
+        /// Returns a default `PropertyListEncoding` instance.
+        public static var `default`: PListEncoding { return PListEncoding() }
+        /// Returns a `PropertyListEncoding` instance with xml formatting and default writing options.
+        public static var xml: PListEncoding { return PListEncoding(format: .xml) }
+        /// Returns a `PropertyListEncoding` instance with binary formatting and default writing options.
+        public static var binary: PListEncoding { return PListEncoding(format: .binary) }
+        /// The property list serialization format.
+        public let format: PropertyListSerialization.PropertyListFormat
+        /// The options for writing the parameters as plist data.
+        public let options: PropertyListSerialization.WriteOptions
+        
+        // MARK: Initialization
+        
+        /// Creates a `PropertyListEncoding` instance using the specified format and options.
+        ///
+        /// - parameter format:  The property list serialization format.
+        /// - parameter options: The options for writing the parameters as plist data.
+        ///
+        /// - returns: The new `PropertyListEncoding` instance.
+        public init(format: PropertyListSerialization.PropertyListFormat = .xml, options: PropertyListSerialization.WriteOptions = 0) {
+            self.format = format
+            self.options = options
+        }
     }
-    
-    // MARK: Encoding
-    
+}
+
+extension Request.PListEncoding: RequestEncoding {
     /// Creates a URL request by encoding parameters and applying them onto an existing request.
     ///
     /// - parameter urlRequest: The request to have parameters applied.
@@ -287,12 +300,12 @@ public class PListEncoding: RequestEncoding {
     }
 }
 
-// MARK: - Extensions.
-
+// Type alias Dictionary<String, Any> to RequestParameters.
 extension Request {
     public typealias RequestParameters = [String: Any]
 }
 
+// Defines HTTPMethods of HTTP URL Requests.
 extension Request {
     public enum HTTPMethod: String {
         case options = "OPTIONS"
@@ -307,6 +320,7 @@ extension Request {
     }
 }
 
+// Conform Dictionary to protocol `URLQueryStringConvertible` to gain chance of cnverting to query string.
 extension Dictionary: URLQueryStringConvertible {
     public func asQuery() throws -> String {
         guard let _ = self as? [String: Any] else { throw AxziplinError.invalidParametersKeyType(parameters: self) }
