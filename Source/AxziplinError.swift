@@ -32,7 +32,8 @@ public enum AxziplinError: Error {
     
     public enum RequestUrlEncodingFailure {
         case emptyUrl
+        case invalidJSONObject
     }
     
-    case requestUrlEncodingFailed(reasion: RequestUrlEncodingFailure)
+    case requestUrlEncodingFailed(reason: RequestUrlEncodingFailure)
 }
