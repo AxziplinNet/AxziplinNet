@@ -230,7 +230,7 @@ extension Dictionary: URLQueryStringConvertible {
                     valueComponents += [(key.escaped, "\(value)".escaped)]
                 }
                 
-                return components
+                return valueComponents
             }
             
             for (key, value) in self {
