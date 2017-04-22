@@ -63,7 +63,7 @@ public final class Session {
         using method: Request.HTTPMethod = .get,
         with parameters: Request.RequestParameters? = nil,
         encoding: Request.URLEncoding = .default,
-        headers: Request.RequestHeaders? = nil) -> RequestResult?
+        headers: Request.RequestHeaders? = nil) -> RequestResult
     {
         do {
             var request = try URLRequest(url: url.asURL(), cachePolicy: .useProtocolCachePolicy, timeoutInterval: _session.configuration.timeoutIntervalForRequest)
@@ -83,7 +83,7 @@ public final class Session {
         }
     }
     
-    public func request(_ request: URLRequestConvertible) -> RequestResult? {
+    public func request(_ request: URLRequestConvertible) -> RequestResult {
         do {
             let request = try request.asURLRequest()
             let task = _session.dataTask(with: request)
