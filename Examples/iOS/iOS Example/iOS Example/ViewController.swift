@@ -27,7 +27,7 @@ class ViewController: UIViewController {
             do {
                 try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
             } catch let err {
-                // print("error: \(err)")
+                print("error: \(err)")
             }
         }
         
@@ -48,6 +48,7 @@ class ViewController: UIViewController {
         let urlRequest = try! URLEncoding.default.encode(URLRequest(url: url), with: ["aaa":"aaa", "bb": "bb", "c": true])
         
         print(urlRequest.url!)
+        print(String(data: urlRequest.httpBody ?? Data(), encoding: .utf8) ?? "")
     }
 
     override func didReceiveMemoryWarning() {
