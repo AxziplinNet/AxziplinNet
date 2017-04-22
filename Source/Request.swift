@@ -114,13 +114,13 @@ public class URLEncoding: RequestEncoding {
     // MARK: Properties.
     
     /// Returns a default `URLEncoding` instance.
-    public class var `default`: URLEncoding { return URLEncoding() }
+    public class var `default`: URLEncoding { return .httpMethod }
     /// Returns a `URLEncoding` instance with a `.asMethod` destination.
-    public class var asMethod: URLEncoding { return .asMethod }
+    public class var httpMethod: URLEncoding { return URLEncoding() }
     /// Returns a `URLEncoding` instance with a `.asQuery` destination.
-    public class var asQuery: URLEncoding { return URLEncoding(encodingMethod: .asQuery) }
+    public class var query: URLEncoding { return URLEncoding(encodingMethod: .asQuery) }
     /// Returns a `URLEncoding` instance with an `.URLEncoding` destination.
-    public class var asBody: URLEncoding { return URLEncoding(encodingMethod: .asBody) }
+    public class var httpBody: URLEncoding { return URLEncoding(encodingMethod: .asBody) }
     
     /// The destination defining where the encoded query string is to be applied to the URL request.
     public let encodingMethod: EncodingMethods
