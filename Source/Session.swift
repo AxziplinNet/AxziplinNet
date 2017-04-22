@@ -58,6 +58,7 @@ public final class Session {
     
     // MARK: Data Request.
     
+    @discardableResult
     public func request(
         _ url: URLConvertible,
         using method: Request.HTTPMethod = .get,
@@ -83,6 +84,7 @@ public final class Session {
         }
     }
     
+    @discardableResult
     public func request(_ request: URLRequestConvertible) -> RequestResult {
         do {
             let request = try request.asURLRequest()
