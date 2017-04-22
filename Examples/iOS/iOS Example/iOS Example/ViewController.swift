@@ -22,12 +22,12 @@ class ViewController: UIViewController {
             print("\(data)")
         }
         delegate.taskOfSessionDidComplete = { task, session, error in
-            let string = String(data: data, encoding: .utf8)
-            print(string ?? "")
+            // let string = String(data: data, encoding: .utf8)
+            // print(string ?? "")
             do {
                 try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
             } catch let err {
-                print("error: \(err)")
+                // print("error: \(err)")
             }
         }
         
@@ -43,6 +43,11 @@ class ViewController: UIViewController {
         // }
         
         task.resume()
+        
+        let url = URL(string: "https://www.baidu.com")!
+        let urlRequest = try! URLEncoding.default.encode(URLRequest(url: url), with: ["aaa":"aaa", "bb": "bb", "c": true])
+        
+        print(urlRequest.url!)
     }
 
     override func didReceiveMemoryWarning() {
