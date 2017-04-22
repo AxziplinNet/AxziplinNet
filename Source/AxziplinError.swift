@@ -34,6 +34,7 @@ public enum AxziplinError: Error {
         case emptyUrl
         case invalidJSONObject
         case JSONSerializationFailed(error: Error)
+        case propertyListSerializationFailed(error: Error)
     }
     
     case requestUrlEncodingFailed(reason: RequestUrlEncodingFailure)
