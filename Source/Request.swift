@@ -87,7 +87,7 @@ extension Request {
         /// Errors occured when request the url resouces.
         public var error: Error?
         /// Task for the request.
-        public weak var task: URLSessionTask?
+        public let task: URLSessionTask?
         
         init(task: URLSessionTask? = nil, error: Error? = nil) {
             self.task = task
@@ -98,6 +98,7 @@ extension Request {
 
 extension Request.Results: RequestResult {
     public func response(_ responseHandler: () -> Void) {
+        task?.resume()
         responseHandler()
     }
 }
@@ -277,16 +278,16 @@ extension Request {
     /// Uses `PropertyListSerialization` to create a plist representation of the parameters object, according to the
     /// associated format and write options values, which is set as the body of the request. The `Content-Type` HTTP header
     /// field of an encoded request is set to `application/x-plist`.
-    public struct PListEncoding {
+    public struct PropertyListEncoding {
         
         // MARK: Properties
         
         /// Returns a default `PropertyListEncoding` instance.
-        public static var `default`: PListEncoding { return PListEncoding() }
+        public static var `default`: PropertyListEncoding { return PropertyListEncoding() }
         /// Returns a `PropertyListEncoding` instance with xml formatting and default writing options.
-        public static var xml: PListEncoding { return PListEncoding(format: .xml) }
+        public static var xml: PropertyListEncoding { return PropertyListEncoding(format: .xml) }
         /// Returns a `PropertyListEncoding` instance with binary formatting and default writing options.
-        public static var binary: PListEncoding { return PListEncoding(format: .binary) }
+        public static var binary: PropertyListEncoding { return PropertyListEncoding(format: .binary) }
         /// The property list serialization format.
         public let format: PropertyListSerialization.PropertyListFormat
         /// The options for writing the parameters as plist data.
@@ -307,7 +308,7 @@ extension Request {
     }
 }
 
-extension Request.PListEncoding: RequestEncoding {
+extension Request.PropertyListEncoding: RequestEncoding {
     /// Creates a URL request by encoding parameters and applying them onto an existing request.
     ///
     /// - parameter urlRequest: The request to have parameters applied.
