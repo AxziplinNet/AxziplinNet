@@ -151,7 +151,7 @@ public class URLEncoding: RequestEncoding {
         let paramQuery = try params.asQuery()
         
         if let method = Request.HTTPMethod(rawValue: urlRequest.httpMethod ?? "GET"), encodingMethod.shouldEncodeRequestParameters(with: method) {
-            guard let url = urlRequest.url else { throw AxziplinError.requestUrlEncodingFailed(reasion: .emptyUrl) }
+            guard let url = urlRequest.url else { throw AxziplinError.requestUrlEncodingFailed(reason: .emptyUrl) }
             
             if var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false), !params.isEmpty {
                 let encodedQuery = (urlComponents.percentEncodedQuery.map({ string -> String in return string + "&" }) ?? "") + paramQuery
@@ -163,6 +163,62 @@ public class URLEncoding: RequestEncoding {
                 urlRequest.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
             }
             urlRequest.httpBody = paramQuery.data(using: .utf8, allowLossyConversion: false)
+        }
+        
+        return urlRequest
+    }
+}
+/// Uses `JSONSerialization` to create a JSON representation of the parameters object, which is set as the body of the
+/// request. The `Content-Type` HTTP header field of an encoded request is set to `application/json`.
+public class JSONEncoding: RequestEncoding {
+    // MARK: Properties
+    
+    /// Returns a `JSONEncoding` instance with default writing options.
+    public class var `default`: JSONEncoding { return .prettyPrinted }
+    /// Returns a `JSONEncoding` instance with `.prettyPrinted` writing options.
+    public class var prettyPrinted: JSONEncoding { return JSONEncoding() }
+    /// The options for writing the parameters as JSON data.
+    private let options: JSONSerialization.WritingOptions
+    
+    // MARK: Initialization
+    
+    /// Creates a `JSONEncoding` instance using the specified options.
+    ///
+    /// - parameter options: The options for writing the parameters as JSON data.
+    ///
+    /// - returns: The new `JSONEncoding` instance.
+    public init(options: JSONSerialization.WritingOptions = .prettyPrinted) {
+        self.options = options
+    }
+    
+    // MARK: Encoding
+    
+    /// Creates a URL request by encoding parameters and applying them onto an existing request.
+    ///
+    /// - parameter urlRequest: The request to have parameters applied.
+    /// - parameter parameters: The parameters to apply.
+    ///
+    /// - throws: An `Error` if the encoding process encounters an error.
+    ///
+    /// - returns: The encoded request.
+    public func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters?) throws -> URLRequest {
+        var urlRequest = try request.asURLRequest()
+        
+        guard let params = parameters else { return urlRequest }
+        guard !params.isEmpty else { return urlRequest }
+        
+        guard JSONSerialization.isValidJSONObject(params) else { throw AxziplinError.requestUrlEncodingFailed(reason: .invalidJSONObject) }
+        
+        do {
+            let JSONData = try JSONSerialization.data(withJSONObject: params, options: [.prettyPrinted])
+            
+            if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
+                urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            }
+            
+            urlRequest.httpBody = JSONData
+        } catch let error {
+            throw AxziplinError.requestUrlEncodingFailed(reason: .JSONSerializationFailed(error: error))
         }
         
         return urlRequest
