@@ -44,7 +44,11 @@ public final class Session {
     ///   - configuration: Object of `URLSessionConfiguration` to create underlying `URLSession` object.
     ///   - delegate     : Delegate object of `SessionDelegate` to create underlying `URLSession` object.
     ///   - delegateQueue: `OperationQueue` object used by `URLSession` delegate.
-    public init(configuration: URLSessionConfiguration = .default, delegate: SessionDelegate = SessionDelegate(), delegateQueue: OperationQueue? = nil) {
+    public init(
+        configuration: URLSessionConfiguration = .default,
+        delegate: SessionDelegate = SessionDelegate(), delegateQueue:
+        OperationQueue? = nil)
+    {
         _session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: delegateQueue)
     }
     /// Releases all resources.
@@ -61,6 +65,26 @@ public final class Session {
         encoding: Request.URLEncoding = .default,
         headers: Request.RequestHeaders? = nil) -> RequestResult?
     {
+        do {
+            var request = try URLRequest(url: url.asURL(), cachePolicy: .useProtocolCachePolicy, timeoutInterval: _session.configuration.timeoutIntervalForRequest)
+            request.httpMethod = method.rawValue
+            
+            if let headers = headers {
+                for (field, value) in headers {
+                    request.setValue(value, forHTTPHeaderField: field)
+                }
+            }
+            
+            let encodedRequest = try encoding.encode(request, with: parameters)
+            
+            return self.request(encodedRequest)
+        } catch let error {
+            
+        }
+        return nil
+    }
+    
+    public func request(_ request: URLRequestConvertible) -> RequestResult? {
         return nil
     }
 }
