@@ -45,10 +45,12 @@ class ViewController: UIViewController {
         task.resume()
         
         let url = URL(string: "https://www.baidu.com")!
-        let urlRequest = try! URLEncoding.default.encode(URLRequest(url: url), with: ["aaa":"aaa", "bb": "bb", "c": true])
+        let urlRequest = try! Request.URLEncoding.default.encode(URLRequest(url: url), with: ["aaa":"aaa", "bb": "bb", "c": true])
         
         print(urlRequest.url!)
         print(String(data: urlRequest.httpBody ?? Data(), encoding: .utf8) ?? "")
+        
+        // Session.default.req
     }
 
     override func didReceiveMemoryWarning() {
