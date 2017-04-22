@@ -33,6 +33,8 @@ public final class Session {
     
     /// Get the managed session object of `Session` class.
     public var session: URLSession { return _session }
+    /// Delegate object of the URLSession object.
+    public var delegate: SessionDelegate
     // MARK: Private Properties.
     /// Underlying sessiong instance object of URLSession.
     private var _session: URLSession
@@ -49,6 +51,7 @@ public final class Session {
         delegate: SessionDelegate = SessionDelegate(), delegateQueue:
         OperationQueue? = nil)
     {
+        self.delegate = delegate
         _session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: delegateQueue)
     }
     /// Releases all resources.
