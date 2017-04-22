@@ -54,6 +54,10 @@ public protocol URLQueryStringConvertible {
 }
 
 public protocol RequestResult {
+    var response: RequestExecutable { get }
+}
+
+public protocol RequestExecutable {
     
 }
 
