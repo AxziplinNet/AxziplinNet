@@ -309,6 +309,10 @@ extension Request {
     public typealias RequestParameters = [String: Any]
 }
 
+extension Request {
+    public typealias RequestHeaders    = [String: String]
+}
+
 // Defines HTTPMethods of HTTP URL Requests.
 extension Request {
     public enum HTTPMethod: String {
