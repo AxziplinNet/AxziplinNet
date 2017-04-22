@@ -74,13 +74,23 @@ public protocol RequestEncoding {
     func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters?) throws -> URLRequest
 }
 
-public class Request {}
+public final class Request {
+    
+}
 
 // MARK: - Extensions.
 
 extension Request {
     public final class Results {
+        /// Errors occured when request the url resouces.
+        public var error: Error?
+        /// Task for the request.
+        public weak var task: URLSessionTask?
         
+        init(task: URLSessionTask? = nil, error: Error? = nil) {
+            self.task = task
+            self.error = error;
+        }
     }
 }
 
