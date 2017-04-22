@@ -24,3 +24,12 @@
 //  SOFTWARE.
 
 import Foundation
+
+public final class Task {
+    
+    let task: URLSessionTask
+    
+    init(_ task: URLSessionTask) {
+        self.task = task
+    }
+}
