@@ -50,7 +50,9 @@ class ViewController: UIViewController {
         print(urlRequest.url!)
         print(String(data: urlRequest.httpBody ?? Data(), encoding: .utf8) ?? "")
         
-        // Session.default.req
+        Session.default.request("https://www.baidu.com", using: .get).response {
+            
+        }
     }
 
     override func didReceiveMemoryWarning() {
