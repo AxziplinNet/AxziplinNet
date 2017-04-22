@@ -54,8 +54,10 @@ public protocol URLQueryStringConvertible {
 }
 
 public protocol RequestResult {
-    var response: RequestExecutable { get }
+    func response(_ responseHandler: () -> Swift.Void) -> Swift.Void
 }
+
+typealias Response = RequestResult
 
 public protocol RequestExecutable {
     
@@ -95,7 +97,9 @@ extension Request {
 }
 
 extension Request.Results: RequestResult {
-    public var response: RequestExecutable { return Request.Execution() }
+    public func response(_ responseHandler: () -> Void) {
+        responseHandler()
+    }
 }
 
 extension Request {
