@@ -10,8 +10,8 @@
 		DC18856B1EA74C4300343356 /* AxziplinNet.h in Headers */ = {isa = PBXBuildFile; fileRef = DC1885691EA74C4300343356 /* AxziplinNet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC1885701EA74DD000343356 /* AxziplinNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC18856F1EA74DD000343356 /* AxziplinNet.swift */; };
 		DC1885721EA74E7500343356 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885711EA74E7500343356 /* Session.swift */; };
-		DC1885741EA7540100343356 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885731EA7540100343356 /* SessionDelegate.swift */; };
-		DC9CAA0E1EA7A17F002D5F03 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885731EA7540100343356 /* SessionDelegate.swift */; };
+		DC1885741EA7540100343356 /* Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885731EA7540100343356 /* Delegate.swift */; };
+		DC9CAA0E1EA7A17F002D5F03 /* Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885731EA7540100343356 /* Delegate.swift */; };
 		DC9CAA0F1EA7A17F002D5F03 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885711EA74E7500343356 /* Session.swift */; };
 		DC9CAA101EA7A17F002D5F03 /* AxziplinNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC18856F1EA74DD000343356 /* AxziplinNet.swift */; };
 		DC9CAA131EA7A17F002D5F03 /* AxziplinNet.h in Headers */ = {isa = PBXBuildFile; fileRef = DC1885691EA74C4300343356 /* AxziplinNet.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -40,7 +40,7 @@
 		DC18856A1EA74C4300343356 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC18856F1EA74DD000343356 /* AxziplinNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxziplinNet.swift; sourceTree = "<group>"; };
 		DC1885711EA74E7500343356 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
-		DC1885731EA7540100343356 /* SessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionDelegate.swift; sourceTree = "<group>"; };
+		DC1885731EA7540100343356 /* Delegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Delegate.swift; sourceTree = "<group>"; };
 		DC9CAA181EA7A17F002D5F03 /* AxziplinNet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AxziplinNet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCCC708A1EA9D84F00F689BF /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		DCCC708D1EA9DF1700F689BF /* AxziplinError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxziplinError.swift; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 				DCCC708D1EA9DF1700F689BF /* AxziplinError.swift */,
 				DC1885711EA74E7500343356 /* Session.swift */,
 				DCCC708A1EA9D84F00F689BF /* Request.swift */,
-				DC1885731EA7540100343356 /* SessionDelegate.swift */,
+				DC1885731EA7540100343356 /* Delegate.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -278,7 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCCC708E1EA9DF1700F689BF /* AxziplinError.swift in Sources */,
-				DC1885741EA7540100343356 /* SessionDelegate.swift in Sources */,
+				DC1885741EA7540100343356 /* Delegate.swift in Sources */,
 				DCCC708B1EA9D84F00F689BF /* Request.swift in Sources */,
 				DC1885721EA74E7500343356 /* Session.swift in Sources */,
 				DC1885701EA74DD000343356 /* AxziplinNet.swift in Sources */,
@@ -291,7 +291,7 @@
 			files = (
 				DCCC708F1EA9E05300F689BF /* AxziplinError.swift in Sources */,
 				DCCC708C1EA9D91200F689BF /* Request.swift in Sources */,
-				DC9CAA0E1EA7A17F002D5F03 /* SessionDelegate.swift in Sources */,
+				DC9CAA0E1EA7A17F002D5F03 /* Delegate.swift in Sources */,
 				DC9CAA0F1EA7A17F002D5F03 /* Session.swift in Sources */,
 				DC9CAA101EA7A17F002D5F03 /* AxziplinNet.swift in Sources */,
 			);

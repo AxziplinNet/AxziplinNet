@@ -504,5 +504,3 @@ extension SessionDelegate: URLSessionStreamDelegate {
         streamTaskOfSessionDidBecomeInOutStream?(streamTask, session, inputStream, outputStream)
     }
 }
-
-
