@@ -225,6 +225,69 @@ public class JSONEncoding: RequestEncoding {
     }
 }
 
+/// Uses `PropertyListSerialization` to create a plist representation of the parameters object, according to the
+/// associated format and write options values, which is set as the body of the request. The `Content-Type` HTTP header
+/// field of an encoded request is set to `application/x-plist`.
+public class PListEncoding: RequestEncoding {
+    
+    // MARK: Properties
+    
+    /// Returns a default `PropertyListEncoding` instance.
+    public class var `default`: PListEncoding { return PListEncoding() }
+    /// Returns a `PropertyListEncoding` instance with xml formatting and default writing options.
+    public class var xml: PListEncoding { return PListEncoding(format: .xml) }
+    /// Returns a `PropertyListEncoding` instance with binary formatting and default writing options.
+    public class var binary: PListEncoding { return PListEncoding(format: .binary) }
+    /// The property list serialization format.
+    public let format: PropertyListSerialization.PropertyListFormat
+    /// The options for writing the parameters as plist data.
+    public let options: PropertyListSerialization.WriteOptions
+    
+    // MARK: Initialization
+    
+    /// Creates a `PropertyListEncoding` instance using the specified format and options.
+    ///
+    /// - parameter format:  The property list serialization format.
+    /// - parameter options: The options for writing the parameters as plist data.
+    ///
+    /// - returns: The new `PropertyListEncoding` instance.
+    public init(format: PropertyListSerialization.PropertyListFormat = .xml, options: PropertyListSerialization.WriteOptions = 0) {
+        self.format = format
+        self.options = options
+    }
+    
+    // MARK: Encoding
+    
+    /// Creates a URL request by encoding parameters and applying them onto an existing request.
+    ///
+    /// - parameter urlRequest: The request to have parameters applied.
+    /// - parameter parameters: The parameters to apply.
+    ///
+    /// - throws: An `Error` if the encoding process encounters an error.
+    ///
+    /// - returns: The encoded request.
+    public func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters?) throws -> URLRequest {
+        var urlRequest = try request.asURLRequest()
+        
+        guard let params = parameters else { return urlRequest }
+        guard !params.isEmpty else { return urlRequest }
+        
+        do {
+            let plistData = try PropertyListSerialization.data(fromPropertyList: params, format: format, options: options)
+            
+            if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
+                urlRequest.setValue("application/x-plist", forHTTPHeaderField: "Content-Type")
+            }
+            
+            urlRequest.httpBody = plistData
+        } catch {
+            throw AxziplinError.requestUrlEncodingFailed(reason: .propertyListSerializationFailed(error: error))
+        }
+        
+        return urlRequest
+    }
+}
+
 // MARK: - Extensions.
 
 extension Request {
