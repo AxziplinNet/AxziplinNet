@@ -36,8 +36,8 @@ public protocol URLRequestConvertible {
     func asURLRequest() throws -> URLRequest
 }
 
-/// Types adopting the `URLConvertible` protocol can be used to construct URLs, which are then used to construct
-/// URL requests.
+/// Types adopting the `URLConvertible` protocol can be used to construct URLs, which are then used to 
+/// construct URL requests.
 public protocol URLConvertible {
     /// Returns a URL that conforms to RFC 2396 or throws an `Error`.
     ///
@@ -47,18 +47,17 @@ public protocol URLConvertible {
     func asURL() throws -> URL
 }
 
+/// Types adopting the `URLQueryStringConvertible` protocol can be used to construct URL query strings 
+/// like `field1=value1&field2=value2`, which are then used to construct URLs.
 public protocol URLQueryStringConvertible {
     func asQuery() throws -> String
-}
-
-public protocol StringConvertiable: Hashable {
-    func asString() throws -> String
 }
 
 public protocol RequestResult {
     
 }
 
+/// A type used to define how a set of parameters are applied to a `URLRequest`.
 public protocol RequestEncoding {
     /// Creates a URL request by encoding parameters and applying them onto an existing request.
     ///
