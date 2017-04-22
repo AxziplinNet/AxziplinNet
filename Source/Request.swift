@@ -79,6 +79,26 @@ public class Request {}
 // MARK: - Extensions.
 
 extension Request {
+    public final class Results {
+        
+    }
+}
+
+extension Request.Results: RequestResult {
+    public var response: RequestExecutable { return Request.Execution() }
+}
+
+extension Request {
+    public final class Execution {
+        
+    }
+}
+
+extension Request.Execution: RequestExecutable {
+    
+}
+
+extension Request {
     /// Creates a url-encoded query string to be set as or appended to any existing URL query string or set as the HTTP
     /// body of the URL request. Whether the query string is set or appended to any existing URL query string or set as
     /// the HTTP body depends on the destination of the encoding.
