@@ -78,13 +78,21 @@ public final class Session {
             let encodedRequest = try encoding.encode(request, with: parameters)
             
             return self.request(encodedRequest)
-        } catch let error {
-            
+        } catch {
+            return Request.Results(error: error)
         }
-        return nil
     }
     
     public func request(_ request: URLRequestConvertible) -> RequestResult? {
-        return nil
+        do {
+            let request = try request.asURLRequest()
+            let task = _session.dataTask(with: request)
+            
+            let result = Request.Results(task: task)
+            
+            return result
+        } catch {
+            return Request.Results(error: error)
+        }
     }
 }
