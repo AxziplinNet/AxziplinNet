@@ -67,7 +67,7 @@ public final class Session {
         using method: Request.HTTPMethod = .get,
         with parameters: Request.Parameters? = nil,
         encoding: Request.URLEncoding = .default,
-        headers: Request.RequestHeaders? = nil) -> RequestResult
+        headers: Request.Headers? = nil) -> RequestResult
     {
         do {
             var request = try URLRequest(url: url.asURL(), cachePolicy: .useProtocolCachePolicy, timeoutInterval: _session.configuration.timeoutIntervalForRequest)

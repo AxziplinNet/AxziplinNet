@@ -345,7 +345,7 @@ extension Request {
 }
 
 extension Request {
-    public typealias RequestHeaders    = [String: String]
+    public typealias Headers    = [String: String]
 }
 
 // Defines HTTPMethods of HTTP URL Requests.
