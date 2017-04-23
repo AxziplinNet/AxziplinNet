@@ -26,10 +26,17 @@
 import Foundation
 
 public final class Task {
+    typealias TaskIdentifier = Int
     
+    var identifier: TaskIdentifier {
+        return task.taskIdentifier
+    }
+    
+    let session: Session
     let task: URLSessionTask
     
-    init(_ task: URLSessionTask) {
+    init(_ task: URLSessionTask, session: Session) {
         self.task = task
+        self.session = session
     }
 }
