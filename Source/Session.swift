@@ -65,7 +65,7 @@ public final class Session {
     public func request(
         _ url: URLConvertible,
         using method: Request.HTTPMethod = .get,
-        with parameters: Request.RequestParameters? = nil,
+        with parameters: Request.Parameters? = nil,
         encoding: Request.URLEncoding = .default,
         headers: Request.RequestHeaders? = nil) -> RequestResult
     {

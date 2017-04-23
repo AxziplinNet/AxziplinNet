@@ -73,7 +73,7 @@ public protocol RequestEncoding {
     /// - throws: An `AFError.parameterEncodingFailed` error if encoding fails.
     ///
     /// - returns: The encoded request.
-    func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters?) throws -> URLRequest
+    func encode(_ request: URLRequestConvertible, with parameters: Request.Parameters?) throws -> URLRequest
 }
 
 public final class Request {
@@ -189,7 +189,7 @@ extension Request.URLEncoding: RequestEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    public func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters?) throws -> URLRequest {
+    public func encode(_ request: URLRequestConvertible, with parameters: Request.Parameters?) throws -> URLRequest {
         var urlRequest = try request.asURLRequest()
         
         guard let params = parameters else { return urlRequest }
@@ -250,7 +250,7 @@ extension Request.JSONEncoding: RequestEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    public func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters?) throws -> URLRequest {
+    public func encode(_ request: URLRequestConvertible, with parameters: Request.Parameters?) throws -> URLRequest {
         var urlRequest = try request.asURLRequest()
         
         guard let params = parameters else { return urlRequest }
@@ -317,7 +317,7 @@ extension Request.PropertyListEncoding: RequestEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    public func encode(_ request: URLRequestConvertible, with parameters: Request.RequestParameters?) throws -> URLRequest {
+    public func encode(_ request: URLRequestConvertible, with parameters: Request.Parameters?) throws -> URLRequest {
         var urlRequest = try request.asURLRequest()
         
         guard let params = parameters else { return urlRequest }
@@ -341,7 +341,7 @@ extension Request.PropertyListEncoding: RequestEncoding {
 
 // Type alias Dictionary<String, Any> to RequestParameters.
 extension Request {
-    public typealias RequestParameters = [String: Any]
+    public typealias Parameters = [String: Any]
 }
 
 extension Request {

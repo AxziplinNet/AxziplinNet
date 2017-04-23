@@ -26,7 +26,7 @@
 import Foundation
 
 public class AxziplinNet: NSObject {
-    public func request(url: URL, parameter: Request.RequestParameters) -> RequestResult? {
+    public func request(url: URL, parameter: Request.Parameters) -> RequestResult? {
         return nil
     }
 }
