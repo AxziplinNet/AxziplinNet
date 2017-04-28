@@ -86,19 +86,24 @@ extension Request {
     public final class Results {
         /// Errors occured when request the url resouces.
         public var error: Error?
-        /// Task for the request.
-        public let task: URLSessionTask?
+        /// Task for the request result.
+        public var task: Task?
         
-        init(task: URLSessionTask? = nil, error: Error? = nil) {
+        init(task: Task? = nil, error: Error? = nil) {
             self.task = task
             self.error = error;
+        }
+        
+        convenience init(task: TaskConvertible, session: Session) throws {
+            self.init()
+            self.task = try Task(task.asTask(), session: session)
         }
     }
 }
 
 extension Request.Results: RequestResult {
     public func response(_ responseHandler: () -> Void) {
-        task?.resume()
+        task?.sessionTask?.resume()
         responseHandler()
     }
 }
