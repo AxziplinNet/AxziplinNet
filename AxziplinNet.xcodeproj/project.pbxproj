@@ -11,6 +11,7 @@
 		DC1885701EA74DD000343356 /* AxziplinNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC18856F1EA74DD000343356 /* AxziplinNet.swift */; };
 		DC1885721EA74E7500343356 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885711EA74E7500343356 /* Session.swift */; };
 		DC1885741EA7540100343356 /* Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885731EA7540100343356 /* Delegate.swift */; };
+		DC1F2C991EB2E6FD00CC2BAC /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7F7D031EAB54B100BC5837 /* Task.swift */; };
 		DC7F7D041EAB54B100BC5837 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7F7D031EAB54B100BC5837 /* Task.swift */; };
 		DC9CAA0E1EA7A17F002D5F03 /* Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885731EA7540100343356 /* Delegate.swift */; };
 		DC9CAA0F1EA7A17F002D5F03 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1885711EA74E7500343356 /* Session.swift */; };
@@ -293,6 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC1F2C991EB2E6FD00CC2BAC /* Task.swift in Sources */,
 				DCCC708F1EA9E05300F689BF /* AxziplinError.swift in Sources */,
 				DCCC708C1EA9D91200F689BF /* Request.swift in Sources */,
 				DC9CAA0E1EA7A17F002D5F03 /* Delegate.swift in Sources */,
