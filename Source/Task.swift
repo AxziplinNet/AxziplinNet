@@ -64,5 +64,5 @@ extension URLSessionTask: TaskConvertible {
 }
 
 extension Task: TaskConvertible {
-    public func asTask() throws -> URLSessionTask { return task.asTask() }
+    public func asTask() throws -> URLSessionTask { return try task.asTask() }
 }
