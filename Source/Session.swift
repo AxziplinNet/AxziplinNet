@@ -93,7 +93,7 @@ public final class Session {
             let request = try request.asURLRequest()
             let task = _session.dataTask(with: request)
             
-            let result = Request.Results(task: task)
+            let result = try Request.Results(task: task, session: self)
             
             return result
         } catch {
