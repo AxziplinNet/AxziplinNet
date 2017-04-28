@@ -36,7 +36,6 @@ public protocol TaskConvertible {
 }
 
 public final class Task {
-    typealias TaskIdentifier = Int
     /// Get the identifier of the underlying `URLSessionTask` object.
     var identifier: TaskIdentifier { return task.taskIdentifier }
     /// The `Session` object.
@@ -51,6 +50,10 @@ public final class Task {
 }
 
 // MARK: - Extensions.
+
+extension Task {
+    typealias TaskIdentifier = Int
+}
 
 extension TaskConvertible {
     var sessionTask: URLSessionTask? { return try? asTask() }
