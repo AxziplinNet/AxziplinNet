@@ -25,6 +25,16 @@
 
 import Foundation
 
+/// Types adopting the `TaskConvertible` protocol can be used to construct URL session tasks.
+public protocol TaskConvertible {
+    /// Returns a session task or throws if an `Error` was encountered.
+    ///
+    /// - throws: An `Error` if the underlying `URLSessionTask` is `nil`.
+    ///
+    /// - returns: A URL session task.
+    func asTask() throws -> URLSessionTask
+}
+
 public final class Task {
     typealias TaskIdentifier = Int
     
@@ -39,4 +49,20 @@ public final class Task {
         self.task = task
         self.session = session
     }
+}
+
+// MARK: - Extensions.
+
+extension TaskConvertible {
+    var sessionTask: URLSessionTask? {
+        return try? asTask()
+    }
+}
+
+extension URLSessionTask: TaskConvertible {
+    public func asTask() throws -> URLSessionTask { return self }
+}
+
+extension Task: TaskConvertible {
+    public func asTask() throws -> URLSessionTask { return task.asTask() }
 }
